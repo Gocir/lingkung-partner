@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "597538094454",
+    "firebase_url": "https://fir-lingkung.firebaseio.com",
+    "project_id": "fir-lingkung",
+    "storage_bucket": "fir-lingkung.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597538094454:android:3ac7034368865fe8e04e57",
+        "android_client_info": {
+          "package_name": "com.example.lingkung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597538094454-0a7n8k98mmhflmbtuttet74ibjae6klm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyv2H_uMdO2_x70cF6NwFUObUiNFyrQvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597538094454-0a7n8k98mmhflmbtuttet74ibjae6klm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597538094454:android:e089e3e214062d6ae04e57",
+        "android_client_info": {
+          "package_name": "com.example.lingkung_partner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597538094454-0a7n8k98mmhflmbtuttet74ibjae6klm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyv2H_uMdO2_x70cF6NwFUObUiNFyrQvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597538094454-0a7n8k98mmhflmbtuttet74ibjae6klm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
