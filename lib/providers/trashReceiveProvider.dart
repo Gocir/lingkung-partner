@@ -25,7 +25,7 @@ class TrashReceiveProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  loadTrashReceiveByPartner({String partnerId})async{
+  loadTrashReceiveByPartner(String partnerId)async{
     trashReceiveByPartner = await _trashReceiveService.getTrashReceiveByPartner(partnerId: partnerId);
     notifyListeners();
   }
