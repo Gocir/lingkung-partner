@@ -111,14 +111,24 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
                       children: <Widget>[
                         Container(
                           child: CustomText(
-                            text: 'Nama Jenis Sampah',
+                            text: 'Jenis Sampah',
                             weight: FontWeight.w600,
                           ),
                         ),
                         DropdownButton(
+                          hint: CustomText(
+                              text: 'Pilih'),
+                          style: TextStyle(fontFamily: "Poppins", fontSize: 16.0, color: black, fontWeight: FontWeight.normal),
                           items: trashesDropDown,
                           onChanged: changeSelectedTrash,
                           value: _currentTrash,
+                        ),
+                        SizedBox(height: 10.0),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration:
+                              BoxDecoration(border: Border.all(color: grey)),
+                          child: Image.asset("assets/images/noimage.png"),
                         ),
                         SizedBox(height: 10.0),
                         Container(
@@ -168,11 +178,9 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
 
   _gettrashes() async {
     List<DocumentSnapshot> data = await _trashService.getTrashes();
-    print(data.length);
     setState(() {
       trashes = data;
       trashesDropDown = getTrashesDropdown();
-      _currentTrash = trashes[0].data['name'];
     });
   }
 
@@ -184,10 +192,13 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
     if (_formKey.currentState.validate()) {
       // setState(() => loading = true);
       if (_currentTrash != null) {
+        FirebaseAuth auth = FirebaseAuth.instance;
+        FirebaseUser _user = await auth.currentUser();
         _trashReceiveService.addTrashReceive({
-          "price": double.parse(_price.text),
+          "price": int.parse(_price.text),
           "trashName": _currentTrash,
-          "partnerId": widget.partner.uid,
+          "image": 'assets/images/noimage.png',
+          "partnerId": _user.uid,
         });
         _formKey.currentState.reset();
         setState(() => loading = false);
