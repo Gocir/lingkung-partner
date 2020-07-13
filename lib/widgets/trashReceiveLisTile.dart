@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
+import 'package:lingkung_partner/screens/updateTrashReceive.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,7 @@ class TrashReceiveLisTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final partner = Provider.of<PartnerProvider>(context);
     final trashReceiveProvider = Provider.of<TrashReceiveProvider>(context);
-
+    
     trashReceiveProvider.loadTrashReceiveByPartner(partner.businessPartner.uid);
 
     return ListView.builder(
@@ -22,10 +23,12 @@ class TrashReceiveLisTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.0)),
             child: ListTile(
               leading: Container(
-                height: MediaQuery.of(context).size.height,
-                width: 50,
+                  height: MediaQuery.of(context).size.height,
+                  width: 50,
                   child: Image.asset(
-                      trashReceiveProvider.trashReceiveByPartner[index].image, fit: BoxFit.cover,)),
+                    trashReceiveProvider.trashReceiveByPartner[index].image,
+                    fit: BoxFit.cover,
+                  )),
               title: CustomText(
                 text:
                     trashReceiveProvider.trashReceiveByPartner[index].trashName,
@@ -45,11 +48,17 @@ class TrashReceiveLisTile extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     child: Icon(Icons.edit, color: green),
-                    onTap: (){},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UpdateTrashReceivePage(trashReceiveModel: trashReceiveProvider.trashReceiveByPartner[index]),
+                          ));
+                    },
                   ),
                   GestureDetector(
                     child: Icon(Icons.delete_outline, color: yellow),
-                    onTap: (){},
+                    onTap: () {},
                   ),
                 ],
               ),
