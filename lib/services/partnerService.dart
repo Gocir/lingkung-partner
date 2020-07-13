@@ -19,24 +19,4 @@ class PartnerServices{
     return PartnerModel.fromSnapshot(doc);
   });
 
-  // Future<PartnerModel> getBusinessDataById(String id) => _firestore.collection(collection).document(id).get().then((doc){
-  //   return PartnerModel.fromSnapshot(doc);
-  // });
-
-  // void addToCart({String partnerId, Map cartItem}){
-  //   print("THE USER ID IS: $partnerId");
-  //   print("cart items are: ${cartItem.toString()}");
-  //   _firestore.collection(collection).document(partnerId).updateData({
-  //     "cart": FieldValue.arrayUnion([cartItem])
-  //   });
-  // }
-
-  // void removeFromCart({String partnerId, Map cartItem}){
-  //   print("THE USER ID IS: $partnerId");
-  //   print("cart items are: ${cartItem.toString()}");
-  //   _firestore.collection(collection).document(partnerId).updateData({
-  //     "cart": FieldValue.arrayRemove([cartItem])
-  //   });
-  // }
-
 }

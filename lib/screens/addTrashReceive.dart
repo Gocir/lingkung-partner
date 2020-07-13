@@ -11,9 +11,6 @@ import 'package:lingkung_partner/utilities/textStyle.dart';
 import 'package:lingkung_partner/widgets/loading.dart';
 
 class AddTrashReceivePage extends StatefulWidget {
-  final FirebaseUser partner;
-  AddTrashReceivePage({Key key, this.partner}) : super(key: key);
-
   @override
   _AddTrashReceivePageState createState() => _AddTrashReceivePageState();
 }
@@ -22,13 +19,16 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
   final _scaffoldStateKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  String _currentTrash;
-  bool loading = false;
   TrashServices _trashService = TrashServices();
   TrashReceiveServices _trashReceiveService = TrashReceiveServices();
-  TextEditingController _price = TextEditingController();
+
+  String currenTrash;
+  String price = '';
+  
   List<DocumentSnapshot> trashes = <DocumentSnapshot>[];
   List<DropdownMenuItem<String>> trashesDropDown = <DropdownMenuItem<String>>[];
+
+  bool loading = false;
 
   @override
   void initState() {
@@ -59,118 +59,101 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
             resizeToAvoidBottomPadding: false,
             backgroundColor: white,
             appBar: AppBar(
-              backgroundColor: white,
+              backgroundColor: blue,
               elevation: 0.0,
-              iconTheme: IconThemeData(color: black),
-              actions: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 10.0, right: 16.0, bottom: 10.0),
-                  height: 10.0,
-                  child: RaisedButton(
-                    color: green,
-                    elevation: 2.0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.help_outline,
-                          color: white,
-                          size: 26.0,
+              iconTheme: IconThemeData(color: white),
+              title: CustomText(
+                text: 'Tambah Jenis Sampah',
+                color: white,
+                size: 18.0,
+                weight: FontWeight.w600,
+              ),
+            ),
+            body: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: CustomText(
+                          text: 'Jenis Sampah',
+                          weight: FontWeight.w600,
                         ),
-                        SizedBox(width: 5.0),
-                        CustomText(text: 'Bantuan', size: 12.0, color: white),
-                      ],
-                    ),
-                    onPressed: () {
-                      // Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => HelpRegisterList(),
-                      //       ));
-                    },
+                      ),
+                      DropdownButton(
+                        hint: CustomText(text: 'Pilih'),
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 16.0,
+                            color: black,
+                            fontWeight: FontWeight.normal),
+                        items: trashesDropDown,
+                        onChanged: changeSelectedTrash,
+                        value: currenTrash,
+                      ),
+                      SizedBox(height: 10.0),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration:
+                            BoxDecoration(border: Border.all(color: grey)),
+                        child: Image.asset("assets/images/noimage.png"),
+                      ),
+                      TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                              counterStyle: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: black,
+                                  fontWeight: FontWeight.normal),
+                              hintText: 'Berapa harga jual produk mu?',
+                              hintStyle: TextStyle(fontFamily: "Poppins"),
+                              labelText: 'Harga',
+                              labelStyle: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: black,
+                                  fontWeight: FontWeight.w500),
+                              prefixText: 'Rp',
+                              prefixStyle: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: yellow,
+                                  fontSize: 10.0),
+                              errorStyle: TextStyle(fontFamily: "Poppins"),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: yellow))),
+                          onChanged: (String str) {
+                            setState(() {
+                              price = str;
+                            });
+                          },
+                          validator: (value) => (value.isEmpty)
+                              ? 'Masukkan harga produk'
+                              : (value.length > 10)
+                                  ? 'Tolong beri harga wajar'
+                                  : null),
+                      Container(
+                        height: 45.0,
+                        margin: EdgeInsets.only(top: 30.0, bottom: 16.0),
+                        child: RaisedButton(
+                            color: green,
+                            elevation: 2.0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50)),
+                            child: Center(
+                              child: CustomText(
+                                  text: 'SIMPAN',
+                                  color: white,
+                                  weight: FontWeight.w700),
+                            ),
+                            onPressed: () async {
+                              onSubmit();
+                            }),
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
-            body: Container(
-              margin: EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      child: CustomText(
-                          text: 'Buat daftar jenis sampah yang diterima',
-                          size: 22.0,
-                          weight: FontWeight.w700)),
-                  SizedBox(height: 10.0),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: CustomText(
-                            text: 'Jenis Sampah',
-                            weight: FontWeight.w600,
-                          ),
-                        ),
-                        DropdownButton(
-                          hint: CustomText(
-                              text: 'Pilih'),
-                          style: TextStyle(fontFamily: "Poppins", fontSize: 16.0, color: black, fontWeight: FontWeight.normal),
-                          items: trashesDropDown,
-                          onChanged: changeSelectedTrash,
-                          value: _currentTrash,
-                        ),
-                        SizedBox(height: 10.0),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration:
-                              BoxDecoration(border: Border.all(color: grey)),
-                          child: Image.asset("assets/images/noimage.png"),
-                        ),
-                        SizedBox(height: 10.0),
-                        Container(
-                          child: TextFormField(
-                              controller: _price,
-                              decoration: InputDecoration(
-                                labelText: 'Harga Sampah',
-                                labelStyle: TextStyle(
-                                    color: grey,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16.0),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: blue)),
-                              ),
-                              validator: (val) => val.isEmpty
-                                  ? 'Berikan harga Sampah yang sesuai'
-                                  : null),
-                        ),
-                        SizedBox(height: 10),
-                        Container(
-                          height: 45.0,
-                          margin: EdgeInsets.only(top: 30.0, bottom: 16.0),
-                          child: RaisedButton(
-                              color: green,
-                              elevation: 2.0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: CustomText(
-                                    text: 'SIMPAN',
-                                    color: white,
-                                    weight: FontWeight.w700),
-                              ),
-                              onPressed: () async {
-                                onSubmit();
-                              }),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
               ),
             ),
           );
@@ -185,24 +168,22 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
   }
 
   changeSelectedTrash(String selectedTrash) {
-    setState(() => _currentTrash = selectedTrash);
+    setState(() => currenTrash = selectedTrash);
   }
 
   void onSubmit() async {
     if (_formKey.currentState.validate()) {
-      // setState(() => loading = true);
-      if (_currentTrash != null) {
+      setState(() => loading = true);
+      if (currenTrash != null) {
         FirebaseAuth auth = FirebaseAuth.instance;
         FirebaseUser _user = await auth.currentUser();
         _trashReceiveService.addTrashReceive({
-          "price": int.parse(_price.text),
-          "trashName": _currentTrash,
+          "price": int.parse(price),
+          "trashName": currenTrash,
           "image": 'assets/images/noimage.png',
           "partnerId": _user.uid,
         });
-        _formKey.currentState.reset();
         setState(() => loading = false);
-        //  Fluttertoast.showToast(msg: 'Restaurant added');
         Navigator.pop(context);
       } else {
         setState(() {
@@ -214,7 +195,6 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
           )));
           loading = false;
         });
-//        Fluttertoast.showToast(msg: 'all the images must be provided');
       }
     }
   }
