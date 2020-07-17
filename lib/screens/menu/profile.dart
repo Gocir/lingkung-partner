@@ -291,7 +291,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               //   },
                               // ),
                               ListTile(
-                                leading: Icon(Icons.category),
+                                leading: Image.asset("assets/icons/wastetypeColor.png"),
                                 title: CustomText(
                                     text: 'Jenis Sampah',
                                     weight: FontWeight.w500),
@@ -310,7 +310,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.access_time),
+                                leading: Image.asset("assets/icons/operationalColor.png"),
                                 title: CustomText(
                                     text: 'Jam Operasional',
                                     weight: FontWeight.w500),
@@ -329,7 +329,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.multiline_chart),
+                                leading: Image.asset("assets/icons/performanceColor.png"),
                                 title: CustomText(
                                     text: 'Performa', weight: FontWeight.w500),
                                 trailing: Icon(
@@ -526,7 +526,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Image.asset("assets/icons/editProfileColor.png"),
+                      Image.asset("assets/icons/peopleColor.png"),
                       CustomText(text: 'Nasabah'),
                       CustomText(
                         text: '0',
