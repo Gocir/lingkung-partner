@@ -3,17 +3,19 @@ import 'package:lingkung_partner/utilities/colorStyle.dart';
 
 class CustomText extends StatelessWidget {
   final String text;
+  final TextOverflow overflow;
   final double size;
   final Color color;
   final FontWeight weight;
 
   //name constructor that has a positional parameters with the text required and the other parameters optional
-  CustomText({@required this.text, this.size, this.color, this.weight});
+  CustomText({@required this.text, this.overflow, this.size, this.color, this.weight});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      overflow: overflow ?? null,
       style: TextStyle(
           fontFamily: "Poppins",
           fontSize: size ?? 14,
