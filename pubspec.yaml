@@ -31,6 +31,8 @@ dependencies:
   uuid:
   intl:
   image_picker:
+  image_picker_gallery_camera: ^0.1.6
+  image_cropper: ^1.2.3
   carousel_pro:
   flutter_typeahead:
   flutter_spinkit:
@@ -61,6 +63,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/icons/
     - assets/images/
     - assets/images/trashBank/
     # - assets/images/trash/
