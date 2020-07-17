@@ -12,7 +12,7 @@ class PartnerServices{
   }
 
   void updatePartnerData(Map<String, dynamic> values){
-    _firestore.collection(collection).document(values['id']).updateData(values);
+    _firestore.collection(collection).document(values['uid']).updateData(values);
   }
 
   Future<PartnerModel> getPartnerById(String id) => _firestore.collection(collection).document(id.toString()).get().then((doc){
