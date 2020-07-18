@@ -18,6 +18,10 @@ class TrashReceiveServices {
     _firestore.collection(collection).document(values['id']).updateData(values);
   }
 
+  Future deleteTrashReceive(String id) async {
+    _firestore.collection(collection).document(id).delete();
+  }
+
   Future<List<TrashReceiveModel>> getTrashReceive() async =>
       _firestore.collection(collection).getDocuments().then((result) {
         List<TrashReceiveModel> trashReceives = [];
