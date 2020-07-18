@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:lingkung_partner/models/partnerModel.dart';
+import 'package:lingkung_partner/models/trashReceiveModel.dart';
+import 'package:lingkung_partner/providers/partnerProvider.dart';
+import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
 import 'package:lingkung_partner/screens/addTrashReceive.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 import 'package:lingkung_partner/widgets/trashReceiveLisTile.dart';
+import 'package:provider/provider.dart';
 
 class TrashReceivePage extends StatefulWidget {
+  final PartnerModel partnerModel;
+  TrashReceivePage({this.partnerModel});
   @override
   _TrashReceivePageState createState() => _TrashReceivePageState();
 }
@@ -12,6 +19,10 @@ class TrashReceivePage extends StatefulWidget {
 class _TrashReceivePageState extends State<TrashReceivePage> {
   @override
   Widget build(BuildContext context) {
+    // final partner = Provider.of<PartnerProvider>(context);
+    // final trashReceiveProvider = Provider.of<TrashReceiveProvider>(context);
+    
+    // trashReceiveProvider.loadTrashReceiveByPartner(partner.businessPartner.uid);
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -46,7 +57,7 @@ class _TrashReceivePageState extends State<TrashReceivePage> {
       // extendBodyBehindAppBar: true,
       body: Container(
         padding: EdgeInsets.all(16.0),
-        child: TrashReceiveLisTile()
+        child: TrashReceiveLisTile(partnerModel: widget.partnerModel)
       ),
     );
   }
