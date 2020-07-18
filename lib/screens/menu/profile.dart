@@ -305,14 +305,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            TrashReceivePage(),
+                                            TrashReceivePage(partnerModel: partnerProvider.businessPartnerModel),
                                       ));
                                 },
                               ),
                               ListTile(
                                 leading: Image.asset("assets/icons/operationalColor.png"),
                                 title: CustomText(
-                                    text: 'Jam Operasional',
+                                    text: 'Waktu Operasional',
                                     weight: FontWeight.w500),
                                 trailing: Icon(
                                   Icons.chevron_right,
