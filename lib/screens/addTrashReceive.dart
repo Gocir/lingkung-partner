@@ -24,7 +24,8 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
 
   String currenTrash;
   String price = '';
-  
+  bool _isCheck = false;
+
   List<DocumentSnapshot> trashes = <DocumentSnapshot>[];
   List<DropdownMenuItem<String>> trashesDropDown = <DropdownMenuItem<String>>[];
 
@@ -182,6 +183,7 @@ class _AddTrashReceivePageState extends State<AddTrashReceivePage> {
           "trashName": currenTrash,
           "image": 'assets/images/noimage.png',
           "partnerId": _user.uid,
+          "isCheck": false
         });
         setState(() => loading = false);
         Navigator.pop(context);
