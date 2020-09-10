@@ -54,11 +54,7 @@ class _TrashReceivePageState extends State<TrashReceivePage> {
               )),
         ],
       ),
-      // extendBodyBehindAppBar: true,
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: TrashReceiveLisTile(partnerModel: widget.partnerModel)
-      ),
+      body: TrashReceiveLisTile(partnerModel: widget.partnerModel)
     );
   }
 }
