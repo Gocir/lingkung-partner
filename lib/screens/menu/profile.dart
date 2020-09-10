@@ -1,19 +1,22 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
-import 'package:lingkung_partner/services/partnerService.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 //  Providers
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 //  Screens
 import 'package:lingkung_partner/screens/addTrash.dart';
-import 'package:lingkung_partner/screens/addTrashReceive.dart';
 import 'package:lingkung_partner/screens/trashReceiveView.dart';
 import 'package:lingkung_partner/screens/authenticate/authenticate.dart';
+//  Services
+import 'package:lingkung_partner/services/partnerService.dart';
 //  Utilities
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
@@ -26,11 +29,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File _selectedImage;
   String imageUrl;
+  bool loading = false;
 
   final FirebaseStorage storage = FirebaseStorage.instance;
   PartnerServices _partnerService = PartnerServices();
 
   void _getImage() async {
+    setState(() => loading = true);
     File image = await ImagePickerGC.pickImage(
         context: context,
         source: ImgSource.Both,
@@ -45,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
       File cropped = await ImageCropper.cropImage(
           sourcePath: image.path,
           aspectRatio: CropAspectRatio(ratioX: 4, ratioY: 3),
-          compressQuality: 200,
+          compressQuality: 100,
           maxWidth: 500,
           maxHeight: 500,
           compressFormat: ImageCompressFormat.jpg,
@@ -60,6 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
       setState(() {
         _selectedImage = cropped;
       });
+    } else {
+      setState(() => loading = false);
     }
 
     if (_selectedImage != null) {
@@ -78,6 +85,9 @@ class _ProfilePageState extends State<ProfilePage> {
           "image": imageUrl,
         });
       });
+      setState(() => loading = false);
+    } else {
+      setState(() => loading = false);
     }
   }
 
@@ -135,64 +145,66 @@ class _ProfilePageState extends State<ProfilePage> {
                     Flexible(
                         flex: 1,
                         child:
-                            Stack(alignment: Alignment.bottomRight, children: <
-                                Widget>[
+                            Stack(alignment: Alignment.bottomRight, children: <Widget>[
                           GestureDetector(
-                            onTap: () {
-                              (partnerProvider.businessPartnerModel?.image
-                                          .toString() !=
-                                      null)
-                                  ? Navigator.push(
-                                      context,
-                                      PageRouteBuilder(
-                                          opaque: false,
-                                          pageBuilder: (BuildContext context, _,
-                                                  __) =>
-                                              GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    height: double.infinity,
-                                                    color:
-                                                        black.withOpacity(0.9),
-                                                    child: Center(
-                                                      child: Hero(
-                                                          tag: 'ProductImage',
-                                                          child: Image.network(
-                                                              "${partnerProvider.businessPartnerModel?.image.toString()}",
-                                                              fit: BoxFit
-                                                                  .cover)),
-                                                    ),
-                                                  ))))
-                                  : _getImage();
-                            },
-                            child: Hero(
-                              tag: 'ProductImage',
+                              onTap: () {
+                                (partnerProvider.businessPartnerModel?.image.toString().isEmpty)
+                                    ? _getImage() : Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                            opaque: false,
+                                            pageBuilder: (BuildContext context, _, __) =>
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Container(
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                      color: black.withOpacity(0.9),
+                                                      child: Center(
+                                                        child: Hero(
+                                                            tag: 'ProductImage',
+                                                            child: Image.network(partnerProvider.businessPartnerModel?.image.toString(),
+                                                                fit: BoxFit.cover)))))));
+                              },
                               child: Container(
-                                height: 70.0,
                                 width: 70.0,
+                                height: 70.0,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    color: white,
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/user.png"),
-                                        fit: BoxFit.cover)),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    child: (partnerProvider
-                                                .businessPartnerModel?.image
-                                                .toString() !=
-                                            null)
-                                        ? Image.network(
-                                            "${partnerProvider.businessPartnerModel?.image.toString()}",
-                                            fit: BoxFit.cover)
-                                        : null),
-                              ),
-                            ),
-                          ),
+                                  color: white,
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                child: Hero(
+                                    tag: 'ProductImage',
+                                    child: loading ? Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: BoxDecoration(
+                                              color: white,
+                                                borderRadius: BorderRadius.circular(20.0)),
+                                            child: SpinKitThreeBounce(color: black, size: 20.0)) : CachedNetworkImage(
+                                        imageUrl: partnerProvider
+                                            .businessPartnerModel?.image
+                                            .toString(),
+                                        imageBuilder: (context, imageProvider) => Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                                color: white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0))),
+                                        placeholder: (context, url) => Container(
+                                            width: 70.0,
+                                            height: 70.0,
+                                            decoration: BoxDecoration(
+                                              color: white,
+                                                borderRadius: BorderRadius.circular(20.0)),
+                                            child: SpinKitThreeBounce(color: black, size: 20.0)),
+                                        errorWidget: (context, url, error) => Container(width: 70.0, height: 70.0, decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/user.png"), fit: BoxFit.cover), color: white, borderRadius: BorderRadius.circular(20.0))))),
+                              )),
                           Container(
                               padding: EdgeInsets.all(7.0),
                               decoration: BoxDecoration(
@@ -217,9 +229,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         CustomText(
                             text:
                                 'BS. ${partnerProvider.businessPartnerModel?.name}' ??
-                                    'Guest Lingkung',
-                            overflow: TextOverflow.fade,
-                            size: 20,
+                                    'Partner Lingkung',
+                            over: TextOverflow.fade,
+                            size: 18,
                             weight: FontWeight.w700),
                         CustomText(
                           text: partnerProvider.businessPartnerModel?.email ??
@@ -230,7 +242,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         (partnerProvider.businessPartnerModel?.phoNumber !=
                                 null)
                             ? CustomText(
-                                text: '+62 ${partnerProvider.businessPartnerModel?.phoNumber}',
+                                text:
+                                    '+62 ${partnerProvider.businessPartnerModel?.phoNumber}',
                                 color: white,
                                 size: 12,
                               )
@@ -272,26 +285,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           children: ListTile.divideTiles(
                             context: context,
                             tiles: [
-                              // ListTile(
-                              //   leading: Icon(Icons.add_circle_outline),
-                              //   title: CustomText(
-                              //       text: 'Tambah Sampah',
-                              //       weight: FontWeight.w500),
-                              //   trailing: Icon(
-                              //     Icons.chevron_right,
-                              //     color: grey,
-                              //   ),
-                              //   dense: true,
-                              //   onTap: () {
-                              //     Navigator.push(
-                              //         context,
-                              //         MaterialPageRoute(
-                              //           builder: (context) => AddTrashPage(),
-                              //         ));
-                              //   },
-                              // ),
                               ListTile(
-                                leading: Image.asset("assets/icons/wastetypeColor.png"),
+                                leading: Image.asset(
+                                    "assets/icons/wastetypeColor.png"),
                                 title: CustomText(
                                     text: 'Jenis Sampah',
                                     weight: FontWeight.w500),
@@ -304,13 +300,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            TrashReceivePage(partnerModel: partnerProvider.businessPartnerModel),
+                                        builder: (context) => TrashReceivePage(
+                                            partnerModel: partnerProvider
+                                                .businessPartnerModel),
                                       ));
                                 },
                               ),
                               ListTile(
-                                leading: Image.asset("assets/icons/operationalColor.png"),
+                                leading: Image.asset(
+                                    "assets/icons/operationalColor.png"),
                                 title: CustomText(
                                     text: 'Waktu Operasional',
                                     weight: FontWeight.w500),
@@ -320,16 +318,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 dense: true,
                                 onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            AddTrashPage(),
-                                      ));
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => AddTrashPage(),
+                                  //     ));
                                 },
                               ),
                               ListTile(
-                                leading: Image.asset("assets/icons/performanceColor.png"),
+                                leading: Image.asset(
+                                    "assets/icons/performanceColor.png"),
                                 title: CustomText(
                                     text: 'Performa', weight: FontWeight.w500),
                                 trailing: Icon(
@@ -517,7 +515,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Image.asset("assets/icons/balanceColor.png"),
                       CustomText(text: 'Saldo'),
                       CustomText(
-                        text: '0',
+                        text: NumberFormat.compactCurrency(
+                                locale: 'id', symbol: 'Rp', decimalDigits: 0)
+                            .format((partnerProvider.businessPartnerModel?.balance == null) ? 0 : partnerProvider.businessPartnerModel?.balance),
                         weight: FontWeight.w600,
                       )
                     ],
@@ -529,7 +529,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Image.asset("assets/icons/peopleColor.png"),
                       CustomText(text: 'Nasabah'),
                       CustomText(
-                        text: '0',
+                        text: NumberFormat.compactCurrency(
+                                locale: 'id', symbol: '', decimalDigits: 0)
+                            .format((partnerProvider.businessPartnerModel?.customer == null) ? 0 : partnerProvider.businessPartnerModel?.customer),
                         weight: FontWeight.w600,
                       )
                     ],
@@ -541,7 +543,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Image.asset("assets/icons/weightColor.png"),
                       CustomText(text: 'Sampah'),
                       CustomText(
-                        text: '0',
+                        text: NumberFormat.compactCurrency(
+                                locale: 'id', symbol: '', decimalDigits: 0)
+                            .format((partnerProvider.businessPartnerModel?.weight == null) ? 0 : partnerProvider.businessPartnerModel?.weight) + ' ons',
                         weight: FontWeight.w600,
                       )
                     ],
