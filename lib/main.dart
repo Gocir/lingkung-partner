@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+//  Providers
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
+//  Screens
 import 'package:lingkung_partner/screens/introduction/splash.dart';
 import 'package:lingkung_partner/screens/menu/home.dart';
 import 'package:lingkung_partner/screens/menu/message.dart';
 import 'package:lingkung_partner/screens/menu/orderHistory.dart';
 import 'package:lingkung_partner/screens/menu/profile.dart';
+//  Utilities
 import 'package:lingkung_partner/utilities/colorStyle.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,9 +31,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: PartnerProvider.initialize()),
         ChangeNotifierProvider.value(value: TrashReceiveProvider.initialize()),
-        // ChangeNotifierProvider.value(value: AppProvider()),
-        // ChangeNotifierProvider.value(value: CategoryProvider.initialize()),
-        // ChangeNotifierProvider.value(value: ProductProvider.initialize()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
