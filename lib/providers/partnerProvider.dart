@@ -69,11 +69,13 @@ class PartnerProvider with ChangeNotifier {
             .setData({
           'uid': result.user.uid,
           'name': name.text,
-          'phoneNumber': phoNumber.text,
+          'phoneNumber': int.parse(phoNumber.text),
           'email': email.text,
           'image': '',
           'address': address.text,
-          "trashReceive": [],
+          'balance': '',
+          'customer': '',
+          'weight': '',
         });
       });
       return true;
