@@ -8,6 +8,9 @@ class PartnerModel{
   static const IMAGE = "image";
   static const PHONE_NUMBER = "phoneNumber";
   static const TRASH_RECEIVE = "trashReceive";
+  static const BALANCE = "balance";
+  static const CUSTOMER = "customer";
+  static const WEIGHT = "weight";
 
   String _id;
   String _name;
@@ -15,7 +18,9 @@ class PartnerModel{
   String _address;
   String _image;
   int _phoNumber;
-  List<String> _trashReceive;
+  int _balance;
+  int _customer;
+  int _weight;
 
 //  getters
   String get id => _id;
@@ -24,7 +29,9 @@ class PartnerModel{
   String get image => _image;
   String get address => _address;
   int get phoNumber => _phoNumber;
-  List<String> get trashReceive => _trashReceive;
+  int get balance => _balance;
+  int get customer => _customer;
+  int get weight => _weight;
 
 //  public variable
 
@@ -35,6 +42,9 @@ class PartnerModel{
     _address = snapshot.data[ADDRESS];
     _image = snapshot.data[IMAGE];
     _phoNumber = snapshot.data[PHONE_NUMBER];
+    _balance = snapshot.data[BALANCE];
+    _customer = snapshot.data[CUSTOMER];
+    _weight = snapshot.data[WEIGHT];
   }
 
 }
