@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lingkung_partner/providers/addressProvider.dart';
 import 'package:provider/provider.dart';
 //  Providers
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider.value(value: AddressProvider()),
         ChangeNotifierProvider.value(value: PartnerProvider.initialize()),
         ChangeNotifierProvider.value(value: TrashReceiveProvider.initialize()),
       ],
