@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lingkung_partner/models/addressModel.dart';
 import 'package:lingkung_partner/models/partnerModel.dart';
 
 class PartnerServices{
@@ -19,4 +20,11 @@ class PartnerServices{
     return PartnerModel.fromSnapshot(doc);
   });
 
+  void addAddress({String userId, AddressModel addressModel}) {
+    print("THE USER ID IS: $userId");
+    print("address are: ${addressModel.toString()}");
+    _firestore.collection(collection).document(userId).updateData({
+      "address": addressModel.toMap()
+    });
+  }
 }

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lingkung_partner/models/addressModel.dart';
 import 'package:lingkung_partner/models/trashReceiveModel.dart';
 //models
 import 'package:lingkung_partner/models/partnerModel.dart';
 //services
 import 'package:lingkung_partner/services/partnerService.dart';
+import 'package:uuid/uuid.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated, Registering }
 
@@ -116,11 +118,6 @@ class PartnerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // getBusinessData() async {
-  //   businessDatas = await _businessDataService.getBusinessDataByPartner(partnerId: _businessPartner.uid);
-  //   notifyListeners();
-  // }
-
   Future<void> _onStateChanged(FirebaseUser firebasePartner) async {
     if (firebasePartner == null) {
       _status = Status.Unauthenticated;
@@ -131,5 +128,36 @@ class PartnerProvider with ChangeNotifier {
           await _businessPartnerService.getPartnerById(businessPartner.uid);
     }
     notifyListeners();
+  }
+
+  Future<bool> addAddress(
+      {String locationBenchmarks,
+      String addressDetail,
+      String latMaps,
+      String longMaps}) async {
+    print("Location On Maps: ${latMaps.toString()}, ${longMaps.toString()}");
+
+    try {
+      var uuid = Uuid();
+      String addressId = uuid.v4();
+      AddressModel addressList = _businessPartnerModel.addressModel;
+      Map addressModel = {
+        "id": addressId,
+        "locationBenchmarks": locationBenchmarks,
+        "addressDetail": addressDetail,
+        "latitude": latMaps,
+        "longitude": longMaps
+      };
+
+      AddressModel address = AddressModel.fromMap(addressModel);
+      print("ADDRESS ARE: ${addressList.toString()}");
+      _businessPartnerService.addAddress(userId: _businessPartner.uid, addressModel: address);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      print("THE ERROR ${e.toString()}");
+      notifyListeners();
+      return false;
+    }
   }
 }

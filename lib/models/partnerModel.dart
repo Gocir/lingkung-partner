@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lingkung_partner/models/addressModel.dart';
 
 class PartnerModel{
   static const ID = "uid";
@@ -15,7 +16,6 @@ class PartnerModel{
   String _id;
   String _name;
   String _email;
-  String _address;
   String _image;
   int _phoNumber;
   int _balance;
@@ -27,19 +27,21 @@ class PartnerModel{
   String get name => _name;
   String get email => _email;
   String get image => _image;
-  String get address => _address;
   int get phoNumber => _phoNumber;
   int get balance => _balance;
   int get customer => _customer;
   int get weight => _weight;
 
 //  public variable
+  AddressModel addressModel;
 
   PartnerModel.fromSnapshot(DocumentSnapshot snapshot){
     _id = snapshot.data[ID];
     _name = snapshot.data[NAME];
     _email = snapshot.data[EMAIL];
-    _address = snapshot.data[ADDRESS];
+    (snapshot.data[ADDRESS] != null)
+        ? addressModel = AddressModel.fromMap(snapshot.data[ADDRESS])
+        : addressModel = snapshot.data[ADDRESS];
     _image = snapshot.data[IMAGE];
     _phoNumber = snapshot.data[PHONE_NUMBER];
     _balance = snapshot.data[BALANCE];

@@ -8,12 +8,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 import 'package:intl/intl.dart';
+import 'package:lingkung_partner/screens/profileDetail/address/address.dart';
 import 'package:provider/provider.dart';
 //  Providers
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 //  Screens
-import 'package:lingkung_partner/screens/addTrash.dart';
-import 'package:lingkung_partner/screens/trashReceiveView.dart';
+import 'package:lingkung_partner/screens/profileDetail/trashReceive/trashReceiveView.dart';
 import 'package:lingkung_partner/screens/authenticate/authenticate.dart';
 //  Services
 import 'package:lingkung_partner/services/partnerService.dart';
@@ -344,6 +344,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                   //     ));
                                 },
                               ),
+                              ListTile(
+                                leading: Icon(Icons.map),
+                                title: CustomText(
+                                    text: 'Alamat', weight: FontWeight.w500),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: grey,
+                                ),
+                                dense: true,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Address(),
+                                      ));
+                                },
+                              ),
                             ],
                           ).toList(),
                         )),
@@ -545,7 +563,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       CustomText(
                         text: NumberFormat.compactCurrency(
                                 locale: 'id', symbol: '', decimalDigits: 0)
-                            .format((partnerProvider.businessPartnerModel?.weight == null) ? 0 : partnerProvider.businessPartnerModel?.weight) + ' ons',
+                            .format((partnerProvider.businessPartnerModel?.weight == null) ? 0 : partnerProvider.businessPartnerModel?.weight) + ' Kg',
                         weight: FontWeight.w600,
                       )
                     ],

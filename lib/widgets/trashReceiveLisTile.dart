@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:lingkung_partner/models/partnerModel.dart';
 import 'package:lingkung_partner/models/trashReceiveModel.dart';
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
-import 'package:lingkung_partner/screens/updateTrashReceive.dart';
+import 'package:lingkung_partner/screens/profileDetail/trashReceive/updateTrashReceive.dart';
 import 'package:lingkung_partner/services/trashReceiveService.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
