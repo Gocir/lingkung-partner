@@ -51,4 +51,18 @@ class TrashReceiveServices {
         }
         return trashReceiveByPartners;
       });
+  
+  Future<List<TrashReceiveModel>> getTrashReceiveByName({String partnerId, String trashName}) async =>
+      _firestore
+          .collection(collection)
+          .where("partnerId", isEqualTo: partnerId)
+          .where("trashName", isEqualTo: trashName)
+          .getDocuments()
+          .then((result) {
+        List<TrashReceiveModel> trashReceiveByPartners = [];
+        for (DocumentSnapshot trashReceiveByPartner in result.documents) {
+          trashReceiveByPartners.add(TrashReceiveModel.fromSnapshot(trashReceiveByPartner));
+        }
+        return trashReceiveByPartners;
+      });
 }

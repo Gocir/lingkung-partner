@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lingkung_partner/screens/introduction/onboarding.dart';
-import 'package:lingkung_partner/screens/wrapper.dart';
+import 'package:lingkung_partner/utilities/wrapper.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

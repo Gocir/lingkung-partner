@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:lingkung_partner/models/trashReceiveModel.dart';
 //  Services
 import 'package:lingkung_partner/services/trashReceiveService.dart';
-import 'package:lingkung_partner/services/trashService.dart';
 //  Utilities
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 //  Widgets
-import 'package:lingkung_partner/widgets/loading.dart';
+import 'package:lingkung_partner/utilities/loading.dart';
 
 class UpdateTrashReceivePage extends StatefulWidget {
   final TrashReceiveModel trashReceiveModel;

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lingkung_partner/models/partnerModel.dart';
 import 'package:lingkung_partner/screens/profileDetail/trashReceive/addTrashReceive.dart';
@@ -15,42 +16,37 @@ class TrashReceivePage extends StatefulWidget {
 class _TrashReceivePageState extends State<TrashReceivePage> {
   @override
   Widget build(BuildContext context) {
-    // final partner = Provider.of<PartnerProvider>(context);
-    // final trashReceiveProvider = Provider.of<TrashReceiveProvider>(context);
-    
-    // trashReceiveProvider.loadTrashReceiveByPartner(partner.businessPartner.uid);
-    return Scaffold(
-      backgroundColor: white,
-      appBar: AppBar(
-        backgroundColor: blue,
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: white),
-        title: CustomText(
-          text: 'Jenis Sampah',
-          size: 20.0,
-          color: white,
-          weight: FontWeight.w600,
-        ),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 16.0),
-              child: GestureDetector(
-                onTap: () {
+    return SafeArea(
+        top: false,
+        child: Scaffold(
+            backgroundColor: white,
+            appBar: AppBar(
+                backgroundColor: blue,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: white),
+                title: CustomText(
+                  text: 'Jenis Sampah',
+                  size: 20.0,
+                  color: white,
+                  weight: FontWeight.w600,
+                ),
+                actions: <Widget>[
+                  IconButton(onPressed: () {}, icon: Icon(Icons.help_outline))
+                ]),
+            floatingActionButton: FloatingActionButton.extended(
+                onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddTrashReceivePage(),
-                      ));
+                          builder: (context) => AddTrashReceivePage(partnerModel: widget.partnerModel)));
                 },
-                child: Icon(
-                  Icons.add_circle_outline,
-                  size: 26.0,
-                  color: white,
-                ),
-              )),
-        ],
-      ),
-      body: TrashReceiveLisTile(partnerModel: widget.partnerModel)
-    );
+                icon: Icon(CupertinoIcons.add, size: 20.0),
+                label: CustomText(
+                    text: 'Tambah',
+                    color: white,
+                    size: 14.0,
+                    weight: FontWeight.w600),
+                backgroundColor: green),
+            body: TrashReceiveLisTile(partnerModel: widget.partnerModel)));
   }
 }

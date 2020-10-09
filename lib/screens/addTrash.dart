@@ -9,7 +9,7 @@ import 'package:lingkung_partner/services/trashService.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 //  Widgets
-import 'package:lingkung_partner/widgets/loading.dart';
+import 'package:lingkung_partner/utilities/loading.dart';
 
 class AddTrashPage extends StatefulWidget {
   @override

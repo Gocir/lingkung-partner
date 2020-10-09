@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:lingkung_partner/screens/authenticate/authenticate.dart';
+import 'package:lingkung_partner/screens/authenticate/login.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 
@@ -60,7 +60,7 @@ class Onboarding extends StatelessWidget {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Authenticate()),
+                MaterialPageRoute(builder: (context) => LoginPage()),
               );
             },
           ),

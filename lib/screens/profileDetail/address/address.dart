@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lingkung_partner/providers/addressProvider.dart';
 import 'package:lingkung_partner/screens/profileDetail/address/setLocation.dart';
@@ -11,8 +10,7 @@ import 'package:lingkung_partner/providers/partnerProvider.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 //  Widgets
-import 'package:lingkung_partner/widgets/loading.dart';
-import 'package:lingkung_partner/widgets/map.dart';
+import 'package:lingkung_partner/utilities/loading.dart';
 
 const kGoogleApiKey = "AIzaSyBxcEIaTorP_Qj34K0EH32zZ5Bmd-i7SRc";
 
@@ -47,14 +45,23 @@ class _AddressState extends State<Address> {
                 title: CustomText(
                     text: 'Informasi Mitra Pengelola',
                     size: 18.0,
-                    weight: FontWeight.w600)),
+                    weight: FontWeight.w600),
+                    titleSpacing: 0,
+                actions: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.help_outline, color: black),
+                          onPressed: null)
+                    ]),
             body: Form(
                 key: _formKey,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                                  CustomText(
+                                      text: 'Patokan lokasi',
+                                      weight: FontWeight.w700),
                           TextFormField(
                               textCapitalization: TextCapitalization.words,
                               style: TextStyle(
@@ -62,22 +69,16 @@ class _AddressState extends State<Address> {
                                   color: black,
                                   fontWeight: FontWeight.normal),
                               decoration: InputDecoration(
-                                  // isDense: true,
+                                  isDense: true,
                                   counterStyle: TextStyle(
                                       fontFamily: "Poppins",
                                       color: black,
                                       fontWeight: FontWeight.normal),
                                   hintText:
-                                      'Contoh: Belakang Warung/Dalam Gang Kecil',
+                                      'Cth: Belakang Warung/Dalam Gang Kecil',
                                   hintStyle: TextStyle(
-                                      fontFamily: "Poppins", fontSize: 14.0),
-                                  labelText: 'Patokan Lokasi',
-                                  labelStyle: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: black,
-                                      fontWeight: FontWeight.w500),
+                                      fontFamily: "Poppins"),
                                   errorStyle: TextStyle(fontFamily: "Poppins"),
-                                  // border: OutlineInputBorder(),
                                   focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(color: blue))),
                               onChanged: (String str) {
@@ -87,30 +88,27 @@ class _AddressState extends State<Address> {
                                       : locationBenchmarks = str;
                                 });
                               }),
+                          SizedBox(height: 16.0),
+                                  CustomText(
+                                      text: 'Alamat Detail',
+                                      weight: FontWeight.w700),
                           TextFormField(
                               textCapitalization: TextCapitalization.words,
+                              maxLines: 3,
                               style: TextStyle(
                                   fontFamily: "Poppins",
-                                  color: black,
-                                  fontWeight: FontWeight.normal),
+                                  color: black),
                               decoration: InputDecoration(
-                                  // isDense: true,
+                                  isDense: true,
                                   counterStyle: TextStyle(
                                       fontFamily: "Poppins",
-                                      color: black,
-                                      fontWeight: FontWeight.normal),
+                                      color: black),
                                   hintText:
-                                      'Contoh: Perumahan KoMa Blok L13 No.31 RT.31/RW.13, Pendidikan Barat, Kabupaten Banyumas, Jawa Tengah 53113',
+                                      'Cth: Perumahan KoMa Blok L13 No.31 RT.31/RW.13, Pendidikan Barat, Kabupaten Banyumas, Jawa Tengah 53113',
                                   hintStyle: TextStyle(
                                     fontFamily: "Poppins",
-                                    fontSize: 14.0,
                                   ),
                                   hintMaxLines: 3,
-                                  labelText: 'Alamat Detail',
-                                  labelStyle: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: black,
-                                      fontWeight: FontWeight.w500),
                                   errorStyle: TextStyle(fontFamily: "Poppins"),
                                   focusedBorder: UnderlineInputBorder(
                                       borderSide: BorderSide(color: blue))),

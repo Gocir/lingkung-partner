@@ -8,13 +8,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker_gallery_camera/image_picker_gallery_camera.dart';
 import 'package:intl/intl.dart';
-import 'package:lingkung_partner/screens/profileDetail/address/address.dart';
 import 'package:provider/provider.dart';
 //  Providers
+import 'package:lingkung_partner/providers/operationalTimeProvider.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 //  Screens
+import 'package:lingkung_partner/screens/authenticate/login.dart';
+import 'package:lingkung_partner/screens/profileDetail/operationalTime/operationalTime.dart';
 import 'package:lingkung_partner/screens/profileDetail/trashReceive/trashReceiveView.dart';
-import 'package:lingkung_partner/screens/authenticate/authenticate.dart';
 //  Services
 import 'package:lingkung_partner/services/partnerService.dart';
 //  Utilities
@@ -94,126 +95,124 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final partnerProvider = Provider.of<PartnerProvider>(context);
+    final timeProvider = Provider.of<OperationalTimeProvider>(context);
 
-    return Scaffold(
-      backgroundColor: blue,
-      body: SingleChildScrollView(
-        child: Stack(children: <Widget>[
-          //BG1
-          Row(
-            children: <Widget>[
+    return SafeArea(
+          child: Scaffold(
+          backgroundColor: green,
+          body: SingleChildScrollView(
+              child: Stack(children: <Widget>[
+            //BG1
+            Row(children: <Widget>[
               Transform.translate(
-                offset: Offset(-14.23, 46.85),
-                child:
-                    // Adobe XD layer: 'grass1' (shape)
-                    Container(
-                  width: 118.0,
-                  height: 115.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/grass11.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              ),
+                  offset: Offset(-14.23, 22.85),
+                  child:
+                      // Adobe XD layer: 'grass1' (shape)
+                      Container(
+                          width: 118.0,
+                          height: 115.0,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/grass1.png"),
+                                  fit: BoxFit.fill)))),
               Transform.translate(
-                offset: Offset(150, -20.93),
-                child:
-                    // Adobe XD layer: 'grass2' (shape)
-                    Container(
-                  width: 133.0,
-                  height: 149.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/grass22.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          //BG2
-          Column(
-            children: <Widget>[
+                  offset: Offset(150, -44.93),
+                  child:
+                      // Adobe XD layer: 'grass2' (shape)
+                      Container(
+                          width: 133.0,
+                          height: 149.0,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage("assets/images/grass2.png"),
+                                  fit: BoxFit.fill))))
+            ]),
+            //BG2
+            Column(children: <Widget>[
               //User
               Container(
-                margin: EdgeInsets.only(left: 16.0, top: 44.0, right: 16.0),
-                child: Row(
-                  children: <Widget>[
+                  margin: EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0),
+                  child: Row(children: <Widget>[
                     Flexible(
                         flex: 1,
-                        child:
-                            Stack(alignment: Alignment.bottomRight, children: <Widget>[
+                        child: Stack(alignment: Alignment.bottomRight, children: <
+                            Widget>[
                           GestureDetector(
                               onTap: () {
-                                (partnerProvider.businessPartnerModel?.image.toString().isEmpty)
-                                    ? _getImage() : Navigator.push(
+                                (partnerProvider.businessPartnerModel?.image
+                                        .toString()
+                                        .isEmpty)
+                                    ? _getImage()
+                                    : Navigator.push(
                                         context,
                                         PageRouteBuilder(
                                             opaque: false,
-                                            pageBuilder: (BuildContext context, _, __) =>
+                                            pageBuilder: (BuildContext context, _,
+                                                    __) =>
                                                 GestureDetector(
                                                     onTap: () {
                                                       Navigator.pop(context);
                                                     },
                                                     child: Container(
-                                                      width: double.infinity,
-                                                      height: double.infinity,
-                                                      color: black.withOpacity(0.9),
-                                                      child: Center(
-                                                        child: Hero(
-                                                            tag: 'ProductImage',
-                                                            child: Image.network(partnerProvider.businessPartnerModel?.image.toString(),
-                                                                fit: BoxFit.cover)))))));
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                        color: black
+                                                            .withOpacity(0.9),
+                                                        child: Center(
+                                                            child: Hero(
+                                                                tag:
+                                                                    'PartnerImage',
+                                                                child: Image.network(
+                                                                    partnerProvider
+                                                                        .businessPartnerModel
+                                                                        ?.image
+                                                                        .toString(),
+                                                                    fit: BoxFit
+                                                                        .cover)))))));
                               },
                               child: Container(
                                 width: 70.0,
                                 height: 70.0,
                                 decoration: BoxDecoration(
-                                  color: white,
+                                    color: white,
                                     borderRadius: BorderRadius.circular(20.0)),
                                 child: Hero(
-                                    tag: 'ProductImage',
-                                    child: loading ? Container(
+                                    tag: 'PartnerImage',
+                                    child: loading
+                                        ? Container(
                                             width: 70.0,
                                             height: 70.0,
                                             decoration: BoxDecoration(
-                                              color: white,
-                                                borderRadius: BorderRadius.circular(20.0)),
-                                            child: SpinKitThreeBounce(color: black, size: 20.0)) : CachedNetworkImage(
-                                        imageUrl: partnerProvider
-                                            .businessPartnerModel?.image
-                                            .toString(),
-                                        imageBuilder: (context, imageProvider) => Container(
-                                            width: 70.0,
-                                            height: 70.0,
-                                            decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: imageProvider,
-                                                    fit: BoxFit.cover),
                                                 color: white,
                                                 borderRadius:
-                                                    BorderRadius.circular(20.0))),
-                                        placeholder: (context, url) => Container(
-                                            width: 70.0,
-                                            height: 70.0,
-                                            decoration: BoxDecoration(
-                                              color: white,
-                                                borderRadius: BorderRadius.circular(20.0)),
-                                            child: SpinKitThreeBounce(color: black, size: 20.0)),
-                                        errorWidget: (context, url, error) => Container(width: 70.0, height: 70.0, decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/user.png"), fit: BoxFit.cover), color: white, borderRadius: BorderRadius.circular(20.0))))),
+                                                    BorderRadius.circular(20.0)),
+                                            child: SpinKitThreeBounce(
+                                                color: black, size: 20.0))
+                                        : CachedNetworkImage(
+                                            imageUrl: partnerProvider
+                                                .businessPartnerModel?.image
+                                                .toString(),
+                                            imageBuilder: (context, imageProvider) => Container(
+                                                width: 70.0,
+                                                height: 70.0,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.cover),
+                                                    color: white,
+                                                    borderRadius: BorderRadius.circular(
+                                                        20.0))),
+                                            placeholder: (context, url) =>
+                                                Container(width: 70.0, height: 70.0, decoration: BoxDecoration(color: white, borderRadius: BorderRadius.circular(20.0)), child: SpinKitThreeBounce(color: black, size: 20.0)),
+                                            errorWidget: (context, url, error) => Container(width: 70.0, height: 70.0, decoration: BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/user.png"), fit: BoxFit.cover), color: white, borderRadius: BorderRadius.circular(20.0))))),
                               )),
                           Container(
                               padding: EdgeInsets.all(7.0),
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20.0),
-                                  bottomRight: Radius.circular(20.0),
-                                ),
-                                color: black.withOpacity(0.5),
-                              ),
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      bottomRight: Radius.circular(20.0)),
+                                  color: black.withOpacity(0.5)),
                               child: GestureDetector(
                                 child: Icon(Icons.add_a_photo,
                                     color: yellow, size: 14.0),
@@ -224,354 +223,307 @@ class _ProfilePageState extends State<ProfilePage> {
                         ])),
                     SizedBox(width: 10.0),
                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        CustomText(
-                            text:
-                                'BS. ${partnerProvider.businessPartnerModel?.name}' ??
-                                    'Partner Lingkung',
-                            over: TextOverflow.fade,
-                            size: 18,
-                            weight: FontWeight.w700),
-                        CustomText(
-                          text: partnerProvider.businessPartnerModel?.email ??
-                              'email@domain.hosting',
-                          color: white,
-                          size: 12,
-                        ),
-                        (partnerProvider.businessPartnerModel?.phoNumber !=
-                                null)
-                            ? CustomText(
-                                text:
-                                    '+62 ${partnerProvider.businessPartnerModel?.phoNumber}',
-                                color: white,
-                                size: 12,
-                              )
-                            : null
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CustomText(
+                              text: (partnerProvider
+                                          .businessPartnerModel?.businessName ==
+                                      null)
+                                  ? 'Partner Lingkung'
+                                  : 'BS. ${partnerProvider.businessPartnerModel?.businessName}',
+                              over: TextOverflow.fade,
+                              size: 18,
+                              weight: FontWeight.w700),
+                          CustomText(
+                              text: (partnerProvider
+                                          .businessPartnerModel?.email ==
+                                      null)
+                                  ? 'email@domain.hosting'
+                                  : '${partnerProvider.businessPartnerModel?.email}',
+                              color: white,
+                              size: 12),
+                          CustomText(
+                              text:
+                                  '${partnerProvider.businessPartner?.phoneNumber}' ??
+                                      '',
+                              color: white,
+                              size: 12)
+                        ])
+                  ])),
               //Container White
               Container(
-                margin: EdgeInsets.only(top: 66.0),
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  color: white,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 50.666),
-                    CustomText(text: 'Akun', weight: FontWeight.w700),
-                    SizedBox(height: 5.0),
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(0, 0),
-                                blurRadius: 3)
-                          ],
-                        ),
-                        child: Column(
-                          children: ListTile.divideTiles(
-                            context: context,
-                            tiles: [
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/wastetypeColor.png"),
-                                title: CustomText(
-                                    text: 'Jenis Sampah',
-                                    weight: FontWeight.w500),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => TrashReceivePage(
-                                            partnerModel: partnerProvider
-                                                .businessPartnerModel),
-                                      ));
-                                },
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/operationalColor.png"),
-                                title: CustomText(
-                                    text: 'Waktu Operasional',
-                                    weight: FontWeight.w500),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => AddTrashPage(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/performanceColor.png"),
-                                title: CustomText(
-                                    text: 'Performa', weight: FontWeight.w500),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           AddTrashReceivePage(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.map),
-                                title: CustomText(
-                                    text: 'Alamat', weight: FontWeight.w500),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Address(),
-                                      ));
-                                },
-                              ),
-                            ],
-                          ).toList(),
-                        )),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    CustomText(text: 'Info lainnya', weight: FontWeight.w700),
-                    SizedBox(height: 5.0),
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          color: white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black12,
-                                offset: Offset(0, 0),
-                                blurRadius: 3)
-                          ],
-                        ),
-                        child: Column(
-                          children: ListTile.divideTiles(
-                            context: context,
-                            tiles: [
-                              ListTile(
-                                leading:
-                                    Image.asset("assets/icons/helpsColor.png"),
-                                title: CustomText(
-                                  text: 'Bantuan',
-                                  weight: FontWeight.w500,
-                                ),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => HelpFeatureList(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/contactColor.png"),
-                                title: CustomText(
-                                  text: 'Hubungi Kami',
-                                  weight: FontWeight.w500,
-                                ),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => ContactUs(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading:
-                                    Image.asset("assets/icons/tosColor.png"),
-                                title: CustomText(
-                                  text: 'Ketentuan Layanan',
-                                  weight: FontWeight.w500,
-                                ),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => TermsOfService(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading: Image.asset(
-                                    "assets/icons/privacyColor.png"),
-                                title: CustomText(
-                                  text: 'Kebijakan Privacy',
-                                  weight: FontWeight.w500,
-                                ),
-                                trailing: Icon(
-                                  Icons.chevron_right,
-                                  color: grey,
-                                ),
-                                dense: true,
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => PrivacyPolicy(),
-                                  //     ));
-                                },
-                              ),
-                              ListTile(
-                                leading:
-                                    Image.asset("assets/icons/phoneColor.png"),
-                                title: CustomText(
-                                  text: 'Versi',
-                                  weight: FontWeight.w500,
-                                ),
-                                trailing: CustomText(
-                                  text: '1.1.1',
-                                  color: grey,
-                                  size: 12.0,
-                                ),
-                                dense: true,
-                              ),
-                            ],
-                          ).toList(),
-                        )),
-                    SizedBox(height: 16.0),
-                    Container(
-                      height: 45.0,
-                      child: RaisedButton(
-                        color: green,
-                        elevation: 2.0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        child: Center(
-                            child: CustomText(
-                                text: 'KELUAR',
-                                size: 16.0,
+                  margin: EdgeInsets.only(top: 66.0),
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0)),
+                      color: white),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(height: 50.666),
+                        CustomText(text: 'Akun', weight: FontWeight.w700),
+                        SizedBox(height: 5.0),
+                        Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
                                 color: white,
-                                weight: FontWeight.w700)),
-                        onPressed: () async {
-                          await partnerProvider.logout();
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Authenticate(),
-                              ));
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          //BG3
-          Container(
-            height: 100.0,
-            margin: EdgeInsets.only(left: 16.0, top: 130.0, right: 16.0),
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: white,
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black12, offset: Offset(0, 0), blurRadius: 6)
-              ],
-            ),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Column(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 0),
+                                      blurRadius: 3)
+                                ]),
+                            child: Column(
+                              children:
+                                  ListTile.divideTiles(context: context, tiles: [
+                                ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/wastetypeColor.png"),
+                                    title: CustomText(
+                                        text: 'Jenis Sampah',
+                                        weight: FontWeight.w500),
+                                    trailing:
+                                        Icon(Icons.chevron_right, color: grey),
+                                    dense: true,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TrashReceivePage(
+                                                    partnerModel: partnerProvider
+                                                        .businessPartnerModel),
+                                          ));
+                                    }),
+                                ListTile(
+                                    leading: Image.asset(
+                                        "assets/icons/operationalColor.png"),
+                                    title: CustomText(
+                                        text: 'Jam Operasional',
+                                        weight: FontWeight.w500),
+                                    trailing:
+                                        Icon(Icons.chevron_right, color: grey),
+                                    dense: true,
+                                    onTap: () {
+                                      timeProvider.loadOperationalTime();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => OperationalTime(
+                                                partnerModel: partnerProvider
+                                                    .businessPartnerModel),
+                                          ));
+                                    }),
+                                ListTile(
+                                  leading: Image.asset(
+                                      "assets/icons/performanceColor.png"),
+                                  title: CustomText(
+                                      text: 'Performa', weight: FontWeight.w500),
+                                  trailing:
+                                      Icon(Icons.chevron_right, color: grey),
+                                  dense: true,
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) =>
+                                    //           AddTrashReceivePage(),
+                                    //     ));
+                                  },
+                                )
+                              ]).toList(),
+                            )),
+                        SizedBox(height: 16.0),
+                        CustomText(text: 'Info lainnya', weight: FontWeight.w700),
+                        SizedBox(height: 5.0),
+                        Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      offset: Offset(0, 0),
+                                      blurRadius: 3)
+                                ]),
+                            child: Column(
+                                children: ListTile
+                                    .divideTiles(context: context, tiles: [
+                              ListTile(
+                                  dense: true,
+                                  leading:
+                                      Image.asset("assets/icons/helpsColor.png"),
+                                  title: CustomText(
+                                      text: 'Bantuan', weight: FontWeight.w500),
+                                  trailing:
+                                      Icon(Icons.chevron_right, color: grey),
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => HelpFeatureList(),
+                                    //     ));
+                                  }),
+                              ListTile(
+                                  dense: true,
+                                  leading: Image.asset(
+                                      "assets/icons/contactColor.png"),
+                                  title: CustomText(
+                                      text: 'Hubungi Kami',
+                                      weight: FontWeight.w500),
+                                  trailing:
+                                      Icon(Icons.chevron_right, color: grey),
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => ContactUs(),
+                                    //     ));
+                                  }),
+                              ListTile(
+                                  dense: true,
+                                  leading:
+                                      Image.asset("assets/icons/tosColor.png"),
+                                  title: CustomText(
+                                      text: 'Ketentuan Layanan',
+                                      weight: FontWeight.w500),
+                                  trailing:
+                                      Icon(Icons.chevron_right, color: grey),
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => TermsOfService(),
+                                    //     ));
+                                  }),
+                              ListTile(
+                                  dense: true,
+                                  leading: Image.asset(
+                                      "assets/icons/privacyColor.png"),
+                                  title: CustomText(
+                                      text: 'Kebijakan Privacy',
+                                      weight: FontWeight.w500),
+                                  trailing:
+                                      Icon(Icons.chevron_right, color: grey),
+                                  onTap: () {
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //       builder: (context) => PrivacyPolicy(),
+                                    //     ));
+                                  }),
+                              ListTile(
+                                  dense: true,
+                                  leading:
+                                      Image.asset("assets/icons/phoneColor.png"),
+                                  title: CustomText(
+                                      text: 'Versi', weight: FontWeight.w500),
+                                  trailing: CustomText(
+                                      text: '1.1.1', color: grey, size: 12.0))
+                            ]).toList())),
+                        SizedBox(height: 16.0),
+                        Container(
+                            height: 45.0,
+                            child: RaisedButton(
+                                color: green,
+                                elevation: 2.0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50)),
+                                child: Center(
+                                    child: CustomText(
+                                        text: 'KELUAR',
+                                        size: 16.0,
+                                        color: white,
+                                        weight: FontWeight.w700)),
+                                onPressed: () async {
+                                  await partnerProvider.logout();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LoginPage(),
+                                      ));
+                                }))
+                      ]))
+            ]),
+            //BG3
+            Container(
+                height: 100.0,
+                margin: EdgeInsets.only(left: 16.0, top: 106.0, right: 16.0),
+                padding: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 0),
+                          blurRadius: 6)
+                    ]),
+                child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Image.asset("assets/icons/balanceColor.png"),
-                      CustomText(text: 'Saldo'),
-                      CustomText(
-                        text: NumberFormat.compactCurrency(
-                                locale: 'id', symbol: 'Rp', decimalDigits: 0)
-                            .format((partnerProvider.businessPartnerModel?.balance == null) ? 0 : partnerProvider.businessPartnerModel?.balance),
-                        weight: FontWeight.w600,
-                      )
-                    ],
-                  ),
-                  VerticalDivider(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Image.asset("assets/icons/peopleColor.png"),
-                      CustomText(text: 'Nasabah'),
-                      CustomText(
-                        text: NumberFormat.compactCurrency(
-                                locale: 'id', symbol: '', decimalDigits: 0)
-                            .format((partnerProvider.businessPartnerModel?.customer == null) ? 0 : partnerProvider.businessPartnerModel?.customer),
-                        weight: FontWeight.w600,
-                      )
-                    ],
-                  ),
-                  VerticalDivider(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Image.asset("assets/icons/weightColor.png"),
-                      CustomText(text: 'Sampah'),
-                      CustomText(
-                        text: NumberFormat.compactCurrency(
-                                locale: 'id', symbol: '', decimalDigits: 0)
-                            .format((partnerProvider.businessPartnerModel?.weight == null) ? 0 : partnerProvider.businessPartnerModel?.weight) + ' Kg',
-                        weight: FontWeight.w600,
-                      )
-                    ],
-                  )
-                ]),
-          )
-        ]),
-      ),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Image.asset("assets/icons/balanceColor.png"),
+                            CustomText(text: 'Saldo'),
+                            CustomText(
+                                text: NumberFormat.compactCurrency(
+                                        locale: 'id',
+                                        symbol: 'Rp',
+                                        decimalDigits: 0)
+                                    .format((partnerProvider
+                                                .businessPartnerModel?.balance ==
+                                            null)
+                                        ? 0
+                                        : partnerProvider
+                                            .businessPartnerModel?.balance),
+                                weight: FontWeight.w600)
+                          ]),
+                      VerticalDivider(),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Image.asset("assets/icons/peopleColor.png"),
+                            CustomText(text: 'Nasabah'),
+                            CustomText(
+                                text: NumberFormat.compactCurrency(
+                                        locale: 'id',
+                                        symbol: '',
+                                        decimalDigits: 0)
+                                    .format((partnerProvider
+                                                .businessPartnerModel?.customer ==
+                                            null)
+                                        ? 0
+                                        : partnerProvider
+                                            .businessPartnerModel?.customer),
+                                weight: FontWeight.w600)
+                          ]),
+                      VerticalDivider(),
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Image.asset("assets/icons/weightColor.png"),
+                            CustomText(text: 'Sampah'),
+                            CustomText(
+                                text: NumberFormat.compactCurrency(
+                                            locale: 'id',
+                                            symbol: '',
+                                            decimalDigits: 0)
+                                        .format((partnerProvider
+                                                    .businessPartnerModel
+                                                    ?.weight ==
+                                                null)
+                                            ? 0
+                                            : partnerProvider
+                                                .businessPartnerModel?.weight) +
+                                    ' Kg',
+                                weight: FontWeight.w600)
+                          ])
+                    ]))
+          ]))),
     );
   }
 }

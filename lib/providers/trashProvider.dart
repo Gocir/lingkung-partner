@@ -10,14 +10,14 @@ class TrashProvider with ChangeNotifier{
   // Getter
   TrashModel get trashModel => _trashModel;
 
-  // TrashProvider.initialize(){
-  //   loadTrash();
-  // }
+  TrashProvider.initialize(){
+    loadTrash();
+  }
 
-  // loadTrash() async {
-  //   trashes = await _trashService.getTrashes();
-  //   notifyListeners();
-  // }
+  loadTrash() async {
+    trashes = await _trashService.getTrashes();
+    notifyListeners();
+  }
 
   // loadSingleTrash({String trashId}) async{
   //   _trashModel = await _trashService.getTrashesById(id: trashId);
