@@ -18,7 +18,6 @@ class _BankAccountState extends State<BankAccount> {
   final _formKey = GlobalKey<FormState>();
 
   bool loading = false;
-  String bankName = '';
   String accountNumber = '';
   String accountName = '';
   List<DropdownMenuItem<BankAccountModel>> bankAccountDropDown;
@@ -35,7 +34,7 @@ class _BankAccountState extends State<BankAccount> {
     List<DropdownMenuItem<BankAccountModel>> items = [];
     for (BankAccountModel bankAccount in bankAccountList) {
       items.add(
-        DropdownMenuItem(child: Text(bankAccount.bankName), value: bankAccount),
+        DropdownMenuItem(child: Text(bankAccount.bankNameList), value: bankAccount),
       );
     }
     return items;
@@ -84,7 +83,7 @@ class _BankAccountState extends State<BankAccount> {
                               onChanged: (value) {
                                 setState(() {
                                   selectedItem = value;
-                                  print(selectedItem.bankName);
+                                  print(selectedItem.bankNameList);
                                 });
                               },
                               value: selectedItem),
@@ -120,7 +119,7 @@ class _BankAccountState extends State<BankAccount> {
                                       : null),
                           SizedBox(height: 16.0),
                           CustomText(
-                              text: 'Nomor pemilik rekening',
+                              text: 'Nama pemilik rekening',
                               weight: FontWeight.w700),
                           TextFormField(
                               textCapitalization: TextCapitalization.words,
@@ -148,7 +147,7 @@ class _BankAccountState extends State<BankAccount> {
                     height: 45.0,
                     margin: EdgeInsets.all(16.0),
                     child: FlatButton(
-                        color: (bankName == "" &&
+                        color: (selectedItem == null &&
                                 accountName == "" ||
                                 accountNumber == "")
                             ? grey
@@ -172,7 +171,7 @@ class _BankAccountState extends State<BankAccount> {
     if (_formKey.currentState.validate()) {
       setState(() => loading = true);
       bool value = await partnerProvider.addBankAccount(
-          bankName: bankName,
+          bankName: selectedItem.bankNameList,
           accountNumber: int.parse(accountNumber),
           accountName: accountName);
       if (value) {

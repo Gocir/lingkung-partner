@@ -75,17 +75,21 @@ class _AddTimeState extends State<AddTime> {
             child: Scaffold(
                 key: _scaffoldStateKey,
                 resizeToAvoidBottomPadding: false,
+                backgroundColor: white,
                 appBar: AppBar(
                     backgroundColor: white,
+                    elevation: 0.0,
                     iconTheme: IconThemeData(color: black),
                     leading: IconButton(
                         icon: Icon(Icons.arrow_back, color: black),
                         onPressed: () {
                           (_fulltimeValue == false &&
-                                      _closedValue == false &&
-                                      _addtimeValue == false)
+                                  _closedValue == false &&
+                                  _addtimeValue == false)
                               ? _arrowBackBottomSheet(context)
-                              : (isSave == false) ? _notSavedBottomSheet(context) : Navigator.pop(context);
+                              : (isSave == false)
+                                  ? _notSavedBottomSheet(context)
+                                  : Navigator.pop(context);
                         }),
                     title: CustomText(
                         text: 'Ubah Jadwal ${widget.day}',
@@ -98,169 +102,182 @@ class _AddTimeState extends State<AddTime> {
                           onPressed: null)
                     ]),
                 body: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        children:
-                            ListTile.divideTiles(context: context, tiles: [
-                      ListTile(
-                          title: CustomText(
-                              text: 'Buka 24 jam',
-                              size: 16.0,
-                              weight: FontWeight.w700),
-                          trailing: CupertinoSwitch(
-                              activeColor: blue,
-                              value: _fulltimeValue,
-                              onChanged: (value) {
-                                if (_closedValue == false &&
-                                    _addtimeValue == false) {
-                                  setState(() {
-                                    _fulltimeValue = value;
-                                    if (_fulltimeValue == true) {
-                                      fulltime = "24 Jam";
-                                    } else {
-                                      fulltime = "";
-                                    }
-                                    closedtime = "";
-                                    openTime = "";
-                                    closingTime = "";
-                                  });
-                                } else {
-                                  setState(() {
-                                    _fulltimeValue = value;
-                                    _closedValue = false;
-                                    _addtimeValue = false;
-                                    if (_fulltimeValue == true) {
-                                      fulltime = "24 Jam";
-                                    } else {
-                                      fulltime = "";
-                                    }
-                                    closedtime = "";
-                                    openTime = "";
-                                    closingTime = "";
-                                  });
-                                }
-                              })),
-                      ListTile(
-                          title: CustomText(
-                              text: 'Tutup',
-                              size: 16.0,
-                              weight: FontWeight.w700),
-                          trailing: CupertinoSwitch(
-                              activeColor: blue,
-                              value: _closedValue,
-                              onChanged: (value) {
-                                if (_fulltimeValue == false &&
-                                    _addtimeValue == false) {
-                                  setState(() {
-                                    _closedValue = value;
-                                    fulltime = '';
-                                    if (_closedValue == true) {
-                                      closedtime = "Tutup";
-                                    } else {
-                                      closedtime = "";
-                                    }
-                                    openTime = '';
-                                    closingTime = '';
-                                  });
-                                } else {
-                                  setState(() {
-                                    _closedValue = value;
-                                    _fulltimeValue = false;
-                                    _addtimeValue = false;
-                                    fulltime = '';
-                                    if (_closedValue == true) {
-                                      closedtime = "Tutup";
-                                    } else {
-                                      closedtime = "";
-                                    }
-                                    openTime = '';
-                                    closingTime = '';
-                                  });
-                                }
-                              })),
-                      Column(children: <Widget>[
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: ListTile.divideTiles(
+                      context: context,
+                      tiles: [
                         ListTile(
                             title: CustomText(
-                                text: 'Atur jam',
+                                text: 'Buka 24 jam',
                                 size: 16.0,
                                 weight: FontWeight.w700),
                             trailing: CupertinoSwitch(
-                                activeColor: blue,
-                                value: _addtimeValue,
+                                activeColor: green,
+                                value: _fulltimeValue,
                                 onChanged: (value) {
                                   if (_closedValue == false &&
-                                      _fulltimeValue == false) {
+                                      _addtimeValue == false) {
                                     setState(() {
-                                      _addtimeValue = value;
-                                      fulltime = '';
-                                      closedtime = '';
-                                      openTime = '--:--';
-                                      closingTime = '--:--';
+                                      _fulltimeValue = value;
+                                      if (_fulltimeValue == true) {
+                                        fulltime = "24 Jam";
+                                      } else {
+                                        fulltime = "";
+                                      }
+                                      closedtime = "";
+                                      openTime = "";
+                                      closingTime = "";
                                     });
                                   } else {
                                     setState(() {
-                                      _addtimeValue = value;
+                                      _fulltimeValue = value;
                                       _closedValue = false;
-                                      _fulltimeValue = false;
-                                      fulltime = '';
-                                      closedtime = '';
-                                      openTime = '--:--';
-                                      closingTime = '--:--';
-                                    });
-                                  }
-                                  if (_addtimeValue == false) {
-                                    setState(() {
+                                      _addtimeValue = false;
+                                      if (_fulltimeValue == true) {
+                                        fulltime = "24 Jam";
+                                      } else {
+                                        fulltime = "";
+                                      }
+                                      closedtime = "";
                                       openTime = "";
                                       closingTime = "";
                                     });
                                   }
                                 })),
-                        (_addtimeValue == false)
-                            ? Container()
-                            : Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      InkWell(
-                                          onTap: () {
-                                            _pickTimeOpen(context);
-                                          },
-                                          child: Column(children: <Widget>[
-                                            CustomText(
-                                                text: 'Buka',
-                                                weight: FontWeight.w700),
-                                            CustomText(
-                                                text: '${openTime.toString()}',
-                                                size: 18.0)
-                                          ])),
-                                      SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              3.5),
-                                      InkWell(
+                        ListTile(
+                            title: CustomText(
+                                text: 'Tutup',
+                                size: 16.0,
+                                weight: FontWeight.w700),
+                            trailing: CupertinoSwitch(
+                                activeColor: green,
+                                value: _closedValue,
+                                onChanged: (value) {
+                                  if (_fulltimeValue == false &&
+                                      _addtimeValue == false) {
+                                    setState(() {
+                                      _closedValue = value;
+                                      fulltime = '';
+                                      if (_closedValue == true) {
+                                        closedtime = "Tutup";
+                                      } else {
+                                        closedtime = "";
+                                      }
+                                      openTime = '';
+                                      closingTime = '';
+                                    });
+                                  } else {
+                                    setState(() {
+                                      _closedValue = value;
+                                      _fulltimeValue = false;
+                                      _addtimeValue = false;
+                                      fulltime = '';
+                                      if (_closedValue == true) {
+                                        closedtime = "Tutup";
+                                      } else {
+                                        closedtime = "";
+                                      }
+                                      openTime = '';
+                                      closingTime = '';
+                                    });
+                                  }
+                                })),
+                        Column(
+                          children: <Widget>[
+                            ListTile(
+                                title: CustomText(
+                                    text: 'Atur jam',
+                                    size: 16.0,
+                                    weight: FontWeight.w700),
+                                trailing: CupertinoSwitch(
+                                    activeColor: green,
+                                    value: _addtimeValue,
+                                    onChanged: (value) {
+                                      if (_closedValue == false &&
+                                          _fulltimeValue == false) {
+                                        setState(() {
+                                          _addtimeValue = value;
+                                          fulltime = '';
+                                          closedtime = '';
+                                          openTime = '--:--';
+                                          closingTime = '--:--';
+                                        });
+                                      } else {
+                                        setState(() {
+                                          _addtimeValue = value;
+                                          _closedValue = false;
+                                          _fulltimeValue = false;
+                                          fulltime = '';
+                                          closedtime = '';
+                                          openTime = '--:--';
+                                          closingTime = '--:--';
+                                        });
+                                      }
+                                      if (_addtimeValue == false) {
+                                        setState(() {
+                                          openTime = "";
+                                          closingTime = "";
+                                        });
+                                      }
+                                    })),
+                            (_addtimeValue == false)
+                                ? Container()
+                                : Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        InkWell(
+                                            onTap: () {
+                                              _pickTimeOpen(context);
+                                            },
+                                            child: Column(children: <Widget>[
+                                              CustomText(
+                                                  text: 'Buka',
+                                                  weight: FontWeight.w700),
+                                              CustomText(
+                                                  text:
+                                                      '${openTime.toString()}',
+                                                  size: 18.0)
+                                            ])),
+                                        SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3.5),
+                                        InkWell(
                                           onTap: () {
                                             _pickTimeClose(context);
                                           },
-                                          child: Column(children: <Widget>[
-                                            CustomText(
-                                                text: 'Tutup',
-                                                weight: FontWeight.w700),
-                                            CustomText(
+                                          child: Column(
+                                            children: <Widget>[
+                                              CustomText(
+                                                  text: 'Tutup',
+                                                  weight: FontWeight.w700),
+                                              CustomText(
                                                 text:
                                                     '${closingTime.toString()}',
-                                                size: 18.0)
-                                          ]))
-                                    ]))
-                      ]),
-                      ListTile()
-                    ]).toList())),
+                                                size: 18.0,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                          ],
+                        ),
+                        ListTile()
+                      ],
+                    ).toList(),
+                  ),
+                ),
                 bottomNavigationBar: Container(
-                    height: 45.0,
-                    margin: EdgeInsets.all(16.0),
+                    height: 80.0,
+                    padding: const EdgeInsets.all(16.0),
                     child: FlatButton(
                         color: (_fulltimeValue == false &&
                                 _closedValue == false &&
@@ -268,9 +285,9 @@ class _AddTimeState extends State<AddTime> {
                                     (openTime == '--:--' ||
                                         closingTime == '--:--')))
                             ? grey
-                            : green,
+                            : yellow,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                            borderRadius: BorderRadius.circular(50)),
                         child: Center(
                             child: CustomText(
                                 text: 'SIMPAN',

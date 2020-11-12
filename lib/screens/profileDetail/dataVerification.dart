@@ -41,7 +41,7 @@ class _DataVerificationState extends State<DataVerification> {
                           text: (partnerProvider.businessPartnerModel?.businessName ==
                                   null)
                               ? 'BS. Mitra Lingkung'
-                              : 'BS. ${partnerProvider.businessPartnerModel.businessName}',
+                              : 'BS. ${partnerProvider.businessPartnerModel?.businessName}',
                           size: 12.0,
                           color: grey)
                     ]),
@@ -146,7 +146,7 @@ class _DataVerificationState extends State<DataVerification> {
                 color: white,
                 padding: const EdgeInsets.all(16.0),
                 child: FlatButton(
-                    color: (partnerProvider.businessPartnerModel.addressModel == null || partnerProvider.businessPartnerModel.ownerDataModel == null || partnerProvider.businessPartnerModel.bankAccountModel == null) ? grey : green,
+                    color: (partnerProvider.businessPartnerModel?.addressModel == null || partnerProvider.businessPartnerModel?.ownerDataModel == null || partnerProvider.businessPartnerModel?.bankAccountModel == null) ? grey : green,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Center(
@@ -156,7 +156,7 @@ class _DataVerificationState extends State<DataVerification> {
                             size: 16.0,
                             weight: FontWeight.w700)),
                     onPressed: () {
-                      if (partnerProvider.businessPartnerModel.addressModel != null && partnerProvider.businessPartnerModel.ownerDataModel != null || partnerProvider.businessPartnerModel.bankAccountModel != null) {
+                      if (partnerProvider.businessPartnerModel?.addressModel != null && partnerProvider.businessPartnerModel?.ownerDataModel != null || partnerProvider.businessPartnerModel?.bankAccountModel != null) {
                         setState(() => loading = true);
                         _partnerService.updatePartnerData({
                             "uid": partnerProvider.businessPartner.uid,

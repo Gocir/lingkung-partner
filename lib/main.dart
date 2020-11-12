@@ -4,14 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 //  Providers
 import 'package:lingkung_partner/providers/addressProvider.dart';
+import 'package:lingkung_partner/providers/userProvider.dart';
+import 'package:lingkung_partner/providers/courierProvider.dart';
+import 'package:lingkung_partner/providers/junkSalesProvider.dart';
 import 'package:lingkung_partner/providers/operationalTimeProvider.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 import 'package:lingkung_partner/providers/trashProvider.dart';
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';
 //  Screens
 import 'package:lingkung_partner/screens/introduction/splash.dart';
-import 'package:lingkung_partner/screens/menu/home.dart';
+import 'package:lingkung_partner/screens/menu/information.dart';
 import 'package:lingkung_partner/screens/menu/order.dart';
+import 'package:lingkung_partner/screens/menu/history.dart';
 import 'package:lingkung_partner/screens/menu/profile.dart';
 //  Utilities
 import 'package:lingkung_partner/utilities/colorStyle.dart';
@@ -32,6 +36,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider.value(value: AddressProvider()),
+          ChangeNotifierProvider.value(value: UserProvider.initialize()),
+          ChangeNotifierProvider.value(value: CourierProvider.initialize()),
+          ChangeNotifierProvider.value(value: JunkSalesProvider.initialize()),
           ChangeNotifierProvider.value(value: PartnerProvider.initialize()),
           ChangeNotifierProvider.value(value: TrashProvider.initialize()),
           ChangeNotifierProvider.value(value: OperationalTimeProvider.initialize()),
@@ -56,7 +63,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final List<Widget> pages = [OrderPage(), HomePage(), ProfilePage()];
+  final List<Widget> pages = [OrderPage(), OrderHistoryPage(), InformationsPage(), ProfilePage()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -81,8 +88,16 @@ class _MainPageState extends State<MainPage> {
                   title: Text('Lingtra',
                       style: TextStyle(
                           fontFamily: "Poppins", fontWeight: FontWeight.w700)),
+                  icon: Icon(Icons.home),
+                  activeColor: yellow,
+                  inactiveColor: grey,
+                  textAlign: TextAlign.center),
+              BottomNavyBarItem(
+                  title: Text('Riwayat',
+                      style: TextStyle(
+                          fontFamily: "Poppins", fontWeight: FontWeight.w700)),
                   icon: Icon(Icons.history),
-                  activeColor: blue,
+                  activeColor: yellow,
                   inactiveColor: grey,
                   textAlign: TextAlign.center),
               BottomNavyBarItem(
@@ -90,7 +105,7 @@ class _MainPageState extends State<MainPage> {
                       style: TextStyle(
                           fontFamily: "Poppins", fontWeight: FontWeight.w700)),
                   icon: Icon(Icons.info_outline),
-                  activeColor: blue,
+                  activeColor: yellow,
                   inactiveColor: grey,
                   textAlign: TextAlign.center),
               BottomNavyBarItem(
@@ -98,7 +113,7 @@ class _MainPageState extends State<MainPage> {
                       style: TextStyle(
                           fontFamily: "Poppins", fontWeight: FontWeight.w700)),
                   icon: Icon(Icons.person_outline),
-                  activeColor: blue,
+                  activeColor: yellow,
                   inactiveColor: grey,
                   textAlign: TextAlign.center),
             ]));

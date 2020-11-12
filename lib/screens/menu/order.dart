@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
 // Widgets
-import 'package:lingkung_partner/widgets/order/orderComplete.dart';
-import 'package:lingkung_partner/widgets/order/orderProcess.dart';
+import 'package:lingkung_partner/screens/order/ordersComplete.dart';
+import 'package:lingkung_partner/screens/order/ordersProgress.dart';
 
 class OrderPage extends StatefulWidget {
   @override
@@ -20,31 +20,38 @@ class _OrderPageState extends State<OrderPage> {
       Tab(text: 'Selesai'),
     ];
 
-    final _kPages = <Widget>[OrderProcess(), OrderComplete()];
+    final _kPages = <Widget>[OrdersProgress(), OrdersComplete()];
 
     return DefaultTabController(
-        length: _kTabs.length,
-        child: SafeArea(
-            top: false,
-            child: Scaffold(
-                appBar: AppBar(
-                    backgroundColor: green,
-                    automaticallyImplyLeading: false,
-                    title: CustomText(
-                        text: 'Lingtra',
-                        size: 18.0,
-                        color: white,
-                        weight: FontWeight.w700),
-                    bottom: TabBar(
-                        indicatorColor: yellow,
-                        labelColor: black,
-                        labelStyle: TextStyle(
-                            fontFamily: "Poppins", fontWeight: FontWeight.w500),
-                        unselectedLabelColor: white.withOpacity(0.8),
-                        unselectedLabelStyle: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.normal),
-                        tabs: _kTabs)),
-                body: TabBarView(children: _kPages))));
+      length: _kTabs.length,
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          appBar: AppBar(
+              backgroundColor: green,
+              automaticallyImplyLeading: false,
+              title: CustomText(
+                text: 'Lingtra',
+                size: 18.0,
+                color: white,
+                weight: FontWeight.w700,
+              ),
+              bottom: TabBar(
+                  indicatorColor: yellow,
+                  labelColor: yellow,
+                  labelStyle: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w500,
+                  ),
+                  unselectedLabelColor: white.withOpacity(0.8),
+                  unselectedLabelStyle: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.normal,
+                  ),
+                  tabs: _kTabs)),
+          body: TabBarView(children: _kPages),
+        ),
+      ),
+    );
   }
 }

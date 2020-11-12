@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lingkung_partner/models/addressModel.dart';
 import 'package:lingkung_partner/models/bankAccountModel.dart';
 import 'package:lingkung_partner/models/ownerDataModel.dart';
-import 'package:lingkung_partner/models/operationalTimeModel.dart';
 import 'package:lingkung_partner/models/partnerModel.dart';
 import 'package:lingkung_partner/models/trashReceiveModel.dart';
 //screens
@@ -37,6 +36,8 @@ enum Status {
 //  Authenticating: Pengguna telah menekan tombol masuk dan kami mengautentikasi pengguna. Dalam Status ini, kami akan menampilkan bilah Kemajuan.
 //  Authenticated: Pengguna diautentikasi. Dalam Status ini, kami akan menampilkan beranda.
 
+// HABIS MENGHILANGKAN PROBLEM
+
 class PartnerProvider with ChangeNotifier {
   FirebaseAuth _auth;
   FirebaseUser _businessPartner;
@@ -56,7 +57,6 @@ class PartnerProvider with ChangeNotifier {
   final scaffoldStatekey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
   TextEditingController userName = TextEditingController();
   TextEditingController phoNumberLogin = TextEditingController();
 
@@ -84,7 +84,6 @@ class PartnerProvider with ChangeNotifier {
 
     final PhoneVerificationCompleted verified =
         (AuthCredential authCredential) {
-      // _userService.login(authCredential);
       print(authCredential.toString() + "lets make this work");
     };
 
@@ -160,7 +159,7 @@ class PartnerProvider with ChangeNotifier {
         changeScreenReplacement(context, AddBusinessName());
       } else if (_businessPartnerModel?.addressModel == null ||
           _businessPartnerModel?.ownerDataModel == null ||
-          _businessPartnerModel?.bankAccountModel == null) {
+          _businessPartnerModel?.bankAccountModel == null || _businessPartnerModel?.accountStatus == 'Not Verified') {
         _status = Status.Registered;
         changeScreenReplacement(context, DataVerification());
       } else if (_businessPartnerModel?.accountStatus == 'Verify' ||
@@ -186,7 +185,6 @@ class PartnerProvider with ChangeNotifier {
     userName.text = "";
     phoNumberLogin.text = "";
     email.text = "";
-    password.text = "";
   }
 
   Future<void> reloadPartnerModel() async {
@@ -228,9 +226,10 @@ class PartnerProvider with ChangeNotifier {
         _status = Status.Registering;
       } else if (_businessPartnerModel?.addressModel == null ||
           _businessPartnerModel?.ownerDataModel == null ||
-          _businessPartnerModel?.bankAccountModel == null) {
+          _businessPartnerModel?.bankAccountModel == null || _businessPartnerModel?.accountStatus == 'Not Verified') {
         _status = Status.Registered;
       } else if (_businessPartnerModel?.accountStatus == 'Verify' ||
+      _businessPartnerModel?.accountStatus == 'Verification Failed' ||
           _businessPartnerModel?.accountStatus == 'Verified') {
         _status = Status.Verify;
       } else if (_businessPartnerModel?.accountStatus == 'Activate') {
@@ -248,12 +247,10 @@ class PartnerProvider with ChangeNotifier {
       String addressDetail,
       String latMaps,
       String longMaps}) async {
-    print("Location On Maps: ${latMaps.toString()}, ${longMaps.toString()}");
 
     try {
       var uuid = Uuid();
       String addressId = uuid.v4();
-      AddressModel addressList = _businessPartnerModel.addressModel;
       Map addressModel = {
         "id": addressId,
         "locationBenchmarks": locationBenchmarks,
@@ -263,7 +260,8 @@ class PartnerProvider with ChangeNotifier {
       };
 
       AddressModel address = AddressModel.fromMap(addressModel);
-      print("ADDRESS ARE: ${addressList.toString()}");
+      print("ADDRESS ARE: ${addressModel.toString()}");
+      print("Location On Maps: ${latMaps.toString()}, ${longMaps.toString()}");
       _businessPartnerService.addAddress(
           userId: _businessPartner.uid, addressModel: address);
       notifyListeners();
@@ -284,12 +282,10 @@ class PartnerProvider with ChangeNotifier {
       String npwpImage,
       String npwpName,
       int npwpNumber}) async {
-    print("Owner is: ${ktpName.toString()}}");
 
     try {
       var uuid = Uuid();
       String ownerDataId = uuid.v4();
-      OwnerDataModel ownerDataList = _businessPartnerModel.ownerDataModel;
       Map ownerDataModel = {
         "id": ownerDataId,
         "phoneNumberOwner": phoNumberOwner,
@@ -302,7 +298,7 @@ class PartnerProvider with ChangeNotifier {
       };
 
       OwnerDataModel ownerData = OwnerDataModel.fromMap(ownerDataModel);
-      print("OWNER IS: ${ownerDataList.toString()}");
+      print("OWNER IS: ${ownerDataModel.toString()}");
       _businessPartnerService.addOwnerData(
           userId: _businessPartner.uid, ownerDataModel: ownerData);
       notifyListeners();
@@ -317,12 +313,10 @@ class PartnerProvider with ChangeNotifier {
   // BankAccount
   Future<bool> addBankAccount(
       {String bankName, int accountNumber, String accountName}) async {
-    print("Bank Name: ${bankName.toString()}");
 
     try {
       var uuid = Uuid();
       String bankAccountId = uuid.v4();
-      BankAccountModel bankAccountList = _businessPartnerModel.bankAccountModel;
       Map bankAccountModel = {
         "id": bankAccountId,
         "bankName": bankName,
@@ -331,7 +325,7 @@ class PartnerProvider with ChangeNotifier {
       };
 
       BankAccountModel bankAccount = BankAccountModel.fromMap(bankAccountModel);
-      print("BANK ACCOUNT IS: ${bankAccountList.toString()}");
+      print("BANK ACCOUNT IS: ${bankAccountModel.toString()}");
       _businessPartnerService.addBankAccount(
           userId: _businessPartner.uid, bankAccountModel: bankAccount);
       notifyListeners();
@@ -343,39 +337,4 @@ class PartnerProvider with ChangeNotifier {
     }
   }
   
-  // // Operational Time
-  // Future<bool> addOperationalTime(
-  //     {String monday,
-  //     String tuesday,
-  //     String wednesday,
-  //     String thursday,
-  //     String friday,
-  //     String saturday,
-  //     String sunday}) async {
-  //   try {
-  //     OperationalTimeModel operationalTimeList =
-  //         _businessPartnerModel.operationalTimeModel;
-  //     Map operationalTimeModel = {
-  //       "monday": monday,
-  //       "tuesday": tuesday,
-  //       "wednesday": wednesday,
-  //       "thursday": thursday,
-  //       "friday": friday,
-  //       "saturday": saturday,
-  //       "sunday": sunday
-  //     };
-
-  //     OperationalTimeModel operationalTime =
-  //         OperationalTimeModel.fromMap(operationalTimeModel);
-  //     print("OPERATIONAL TIME IS: ${operationalTimeList.toString()}");
-  //     _businessPartnerService.addOperationalTime(
-  //         userId: _businessPartner.uid, operationalTimeModel: operationalTime);
-  //     notifyListeners();
-  //     return true;
-  //   } catch (e) {
-  //     print(e.toString());
-  //     notifyListeners();
-  //     return false;
-  //   }
-  // }
 }

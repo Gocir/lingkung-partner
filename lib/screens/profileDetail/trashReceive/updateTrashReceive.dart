@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 //  Models
 import 'package:lingkung_partner/models/trashReceiveModel.dart';
 //  Services
@@ -47,72 +49,119 @@ class _UpdateTrashReceivePageState extends State<UpdateTrashReceivePage> {
   Widget build(BuildContext context) {
     return loading
         ? Loading()
-        : Scaffold(
-            key: _scaffoldStateKey,
-            resizeToAvoidBottomPadding: false,
-            backgroundColor: white,
-            appBar: AppBar(
-              backgroundColor: blue,
-              elevation: 0.0,
-              iconTheme: IconThemeData(color: white),
-              title: CustomText(
-                text: 'Perbarui Jenis Sampah',
-                color: white,
-                size: 18.0,
-                weight: FontWeight.w600,
+        : SafeArea(
+            top: false,
+            child: Scaffold(
+              key: _scaffoldStateKey,
+              resizeToAvoidBottomPadding: false,
+              backgroundColor: white,
+              appBar: AppBar(
+                backgroundColor: green,
+                elevation: 0.0,
+                iconTheme: IconThemeData(color: white),
+                // title: CustomText(
+                //   text: 'Perbarui Jenis Sampah',
+                //   color: white,
+                //   size: 18.0,
+                //   weight: FontWeight.w600,
+                // ),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.help_outline),
+                    onPressed: () {},
+                  ),
+                ],
               ),
-            ),
-            body: Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TextFormField(
+              body: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        CustomText(
+                          text: 'Jenis Sampah',
+                          weight: FontWeight.w600,
+                        ),
+                        TextFormField(
                           enabled: false,
                           controller: nameController,
                           decoration: InputDecoration(
-                              counterStyle: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: black,
-                                  fontWeight: FontWeight.normal),
-                              labelText: 'Jenis Sampah',
-                              labelStyle: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: black,
-                                  fontWeight: FontWeight.w500))),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration:
-                            BoxDecoration(border: Border.all(color: grey)),
-                        child: Image.asset("assets/images/noimage.png"),
-                      ),
-                      TextFormField(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.only(bottom: 8.0),
+                            counterStyle: TextStyle(
+                              fontFamily: "Poppins",
+                              color: grey,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16.0),
+                        CachedNetworkImage(
+                          imageUrl: widget.trashReceiveModel.image.toString(),
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(color: Colors.grey[200]),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 200.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: SpinKitThreeBounce(
+                              color: black,
+                              size: 10.0,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.width / 2,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/noimage.png"),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16.0),
+                        CustomText(
+                          text: 'Harga',
+                          weight: FontWeight.w600,
+                        ),
+                        TextFormField(
                           controller: priceController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                              counterStyle: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: black,
-                                  fontWeight: FontWeight.normal),
-                              hintText: 'Berapa harga jual produk mu?',
-                              hintStyle: TextStyle(fontFamily: "Poppins"),
-                              labelText: 'Harga',
-                              labelStyle: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: black,
-                                  fontWeight: FontWeight.w500),
-                              prefixText: 'Rp',
-                              prefixStyle: TextStyle(
-                                  fontFamily: "Poppins",
-                                  color: yellow,
-                                  fontSize: 10.0),
-                              errorStyle: TextStyle(fontFamily: "Poppins"),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: yellow))),
-                          onChanged: (String str) {
+                            isDense: true,
+                            contentPadding: const EdgeInsets.only(bottom: 8.0),
+                            counterStyle: TextStyle(
+                              fontFamily: "Poppins",
+                              color: black,
+                            ),
+                            hintText: 'Contoh: 6000',
+                            hintStyle: TextStyle(fontFamily: "Poppins"),
+                            prefixText: 'Rp',
+                            prefixStyle: TextStyle(
+                              fontFamily: "Poppins",
+                              color: Colors.red,
+                            ),
+                            errorStyle: TextStyle(fontFamily: "Poppins"),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: blue),
+                            ),
+                          ),
+                          onChanged: (str) {
                             setState(() {
                               price = str;
                             });
@@ -121,56 +170,129 @@ class _UpdateTrashReceivePageState extends State<UpdateTrashReceivePage> {
                               ? 'Masukkan harga produk'
                               : (value.length > 10)
                                   ? 'Tolong beri harga wajar'
-                                  : null),
-                      Container(
-                        height: 45.0,
-                        margin: EdgeInsets.only(top: 30.0, bottom: 16.0),
-                        child: RaisedButton(
-                            color: green,
-                            elevation: 2.0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Center(
-                              child: CustomText(
-                                  text: 'SIMPAN',
-                                  color: white,
-                                  weight: FontWeight.w700),
-                            ),
-                            onPressed: () async {
-                              onSubmit();
-                            }),
-                      )
-                    ],
+                                  : null,
+                        ),
+                      ],
+                    ),
                   ),
+                ),
+              ),
+              bottomNavigationBar: Container(
+                height: 80.0,
+                padding: const EdgeInsets.all(16.0),
+                child: FlatButton(
+                  color: yellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Center(
+                    child: CustomText(
+                      text: 'SIMPAN',
+                      size: 16.0,
+                      color: white,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+                  onPressed: () {
+                    save();
+                  },
                 ),
               ),
             ),
           );
   }
-  void onSubmit() async {
+
+  void save() async {
     if (_formKey.currentState.validate()) {
-      // setState(() => loading = true);
+      setState(() {
+        loading = true;
+      });
       if (price != null) {
         _trashReceiveService.updateTrashReceive({
           "id": widget.trashReceiveModel.id,
           "price": int.parse(price),
         });
-        _formKey.currentState.reset();
-        setState(() => loading = false);
-        //  Fluttertoast.showToast(msg: 'Restaurant added');
+        setState(() {
+          loading = false;
+        });
         Navigator.pop(context);
       } else {
         setState(() {
-          _scaffoldStateKey.currentState.showSnackBar(SnackBar(
-              content: CustomText(
-            text: "Tolong isi data dengan benar",
-            color: white,
-            weight: FontWeight.w600,
-          )));
           loading = false;
         });
-//        Fluttertoast.showToast(msg: 'all the images must be provided');
+        _emptyModalBottomSheet(context);
       }
     }
+  }
+
+  void _emptyModalBottomSheet(context) {
+    showModalBottomSheet<void>(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.width / 2.2,
+                    alignment: Alignment.center,
+                    child: Image.asset("assets/images/verifailed.png"),
+                  ),
+                  SizedBox(height: 16.0),
+                  CustomText(
+                    text: 'Tunggu! Ada data yang kosong',
+                    size: 18.0,
+                    weight: FontWeight.w700,
+                  ),
+                  SizedBox(height: 5.0),
+                  CustomText(
+                    text:
+                        'Kamu tidak dapat menyimpan bila datamu kosong. Yuk, lengkapi datamu!',
+                  ),
+                  SizedBox(height: 16.0),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 48,
+                    child: FlatButton(
+                      color: yellow,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: CustomText(
+                        text: 'OKE',
+                        color: white,
+                        size: 16.0,
+                        weight: FontWeight.w700,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

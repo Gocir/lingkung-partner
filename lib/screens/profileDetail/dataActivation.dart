@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lingkung_partner/models/operationalTimeModel.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
 import 'package:lingkung_partner/providers/operationalTimeProvider.dart';
 import 'package:lingkung_partner/providers/trashReceiveProvider.dart';

@@ -29,7 +29,7 @@
 //     'Minggu'
 //   ];
 //   List<String> initial = ['S', 'S', 'R', 'K', 'J', 'S', 'M'];
-//   // String _time = "Tutup";
+//   // String time = "Tutup";
 //   bool loading = false;
 
 //   @override
@@ -91,7 +91,7 @@
 //                     //           text: (timeModel?.fullTime != null) ? '${timeModel?.fullTime}' :
 //                     //           (timeModel?.closed != null) ? '${timeModel?.closed}' :
 //                     //           (timeModel?.openTime != null && timeModel?.openTime != null) ? '${timeModel?.openTime} - ${timeModel?.closingTime}' :
-//                     //           _time,
+//                     //           time,
 //                     //           color: (timeModel == null ||
 //                     //                   timeModel?.closed != null)
 //                     //               ? Colors.red
@@ -105,7 +105,7 @@
 //                     //                   borderRadius: BorderRadius.circular(10)),
 //                     //               child: CustomText(
 //                     //                   text: 'Ubah',
-//                     //                   color: green,
+//                     //                   color: yellow,
 //                     //                   weight: FontWeight.w700),
 //                     //               onPressed: () {
 //                     //                 Navigator.push(
@@ -118,7 +118,7 @@
 //                     height: 45.0,
 //                     margin: EdgeInsets.all(16.0),
 //                     child: FlatButton(
-//                         color: green,
+//                         color: yellow,
 //                         shape: RoundedRectangleBorder(
 //                             borderRadius: BorderRadius.circular(10)),
 //                         child: Center(
@@ -173,7 +173,6 @@ import 'package:lingkung_partner/models/partnerModel.dart';
 import 'package:lingkung_partner/models/operationalTimeModel.dart';
 import 'package:lingkung_partner/providers/operationalTimeProvider.dart';
 import 'package:lingkung_partner/screens/profileDetail/operationalTime/addTime.dart';
-import 'package:lingkung_partner/services/operationalTimeService.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/loading.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
@@ -187,7 +186,6 @@ class OperationalTime extends StatefulWidget {
 
 class _OperationalTimeState extends State<OperationalTime> {
   final _scaffoldStateKey = GlobalKey<ScaffoldState>();
-  OperationalTimeServices _services = OperationalTimeServices();
 
   List<String> day = [
     'Senin',
@@ -199,7 +197,7 @@ class _OperationalTimeState extends State<OperationalTime> {
     'Minggu'
   ];
   List<String> initial = ['S', 'S', 'R', 'K', 'J', 'S', 'M'];
-  String _time = "";
+  String time = "";
   bool loading = false;
 
   @override
@@ -224,479 +222,702 @@ class _OperationalTimeState extends State<OperationalTime> {
         : SafeArea(
             top: false,
             child: Scaffold(
-                key: _scaffoldStateKey,
-                resizeToAvoidBottomPadding: false,
+              key: _scaffoldStateKey,
+              resizeToAvoidBottomPadding: false,
+              backgroundColor: white,
+              appBar: AppBar(
                 backgroundColor: white,
-                appBar: AppBar(
-                    backgroundColor: white,
-                    iconTheme: IconThemeData(color: black),
-                    leading: IconButton(
-                          icon: Icon(Icons.arrow_back, color: black),
-                          onPressed: () {
-                            ((senin?.fullTime == null || senin?.fullTime == "") &&
-                            (senin?.closed == null || senin?.closed == "" || senin?.closed == "Tutup") &&
-                            ((senin?.openTime == null || senin?.openTime == "") && (senin?.closingTime == null || senin?.closingTime == "")))
-                            &&
+                elevation: 0,
+                iconTheme: IconThemeData(color: black),
+                leading: IconButton(
+                  icon: Icon(Icons.arrow_back, color: black),
+                  onPressed: () {
+                    ((senin?.fullTime == null || senin?.fullTime == "") &&
+                                (senin?.closed == null ||
+                                    senin?.closed == "" ||
+                                    senin?.closed == "Tutup") &&
+                                ((senin?.openTime == null || senin?.openTime == "") &&
+                                    (senin?.closingTime == null ||
+                                        senin?.closingTime == ""))) &&
                             ((selasa?.fullTime == null || selasa?.fullTime == "") &&
-                            (selasa?.closed == null || selasa?.closed == "" || selasa?.closed == "Tutup") &&
-                            ((selasa?.openTime == null || selasa?.openTime == "") && (selasa?.closingTime == null || selasa?.closingTime == "")))
-                            &&
+                                (selasa?.closed == null ||
+                                    selasa?.closed == "" ||
+                                    selasa?.closed == "Tutup") &&
+                                ((selasa?.openTime == null || selasa?.openTime == "") &&
+                                    (selasa?.closingTime == null ||
+                                        selasa?.closingTime == ""))) &&
                             ((rabu?.fullTime == null || rabu?.fullTime == "") &&
-                            (rabu?.closed == null || rabu?.closed == "" || rabu?.closed == "Tutup") &&
-                            ((rabu?.openTime == null || rabu?.openTime == "") && (rabu?.closingTime == null || rabu?.closingTime == "")))
-                            &&
+                                (rabu?.closed == null ||
+                                    rabu?.closed == "" ||
+                                    rabu?.closed == "Tutup") &&
+                                ((rabu?.openTime == null || rabu?.openTime == "") &&
+                                    (rabu?.closingTime == null ||
+                                        rabu?.closingTime == ""))) &&
                             ((kamis?.fullTime == null || kamis?.fullTime == "") &&
-                            (kamis?.closed == null || kamis?.closed == "" || kamis?.closed == "Tutup") &&
-                            ((kamis?.openTime == null || kamis?.openTime == "") && (kamis?.closingTime == null || kamis?.closingTime == "")))
-                            &&
+                                (kamis?.closed == null ||
+                                    kamis?.closed == "" ||
+                                    kamis?.closed == "Tutup") &&
+                                ((kamis?.openTime == null || kamis?.openTime == "") &&
+                                    (kamis?.closingTime == null ||
+                                        kamis?.closingTime == ""))) &&
                             ((jumat?.fullTime == null || jumat?.fullTime == "") &&
-                            (jumat?.closed == null || jumat?.closed == "" || jumat?.closed == "Tutup") &&
-                            ((jumat?.openTime == null || jumat?.openTime == "") && (jumat?.closingTime == null || jumat?.closingTime == "")))
-                            &&
+                                (jumat?.closed == null ||
+                                    jumat?.closed == "" ||
+                                    jumat?.closed == "Tutup") &&
+                                ((jumat?.openTime == null || jumat?.openTime == "") &&
+                                    (jumat?.closingTime == null ||
+                                        jumat?.closingTime == ""))) &&
                             ((sabtu?.fullTime == null || sabtu?.fullTime == "") &&
-                            (sabtu?.closed == null || sabtu?.closed == "" || sabtu?.closed == "Tutup") &&
-                            ((sabtu?.openTime == null || sabtu?.openTime == "") && (sabtu?.closingTime == null || sabtu?.closingTime == "")))
-                            &&
+                                (sabtu?.closed == null ||
+                                    sabtu?.closed == "" ||
+                                    sabtu?.closed == "Tutup") &&
+                                ((sabtu?.openTime == null || sabtu?.openTime == "") &&
+                                    (sabtu?.closingTime == null ||
+                                        sabtu?.closingTime == ""))) &&
                             ((minggu?.fullTime == null || minggu?.fullTime == "") &&
-                            (minggu?.closed == null || minggu?.closed == "" || minggu.closed == "Tutup") &&
-                            ((minggu?.openTime == null || minggu?.openTime == "") && (minggu?.closingTime == null || minggu?.closingTime == "")))
-                            ?
-                            _arrowBackBottomSheet(context)
-                            :
-                            Navigator.pop(context);
-                          }),
-                    title: CustomText(
-                        text: 'Jam Operasional',
-                        size: 18.0,
-                        weight: FontWeight.w600),
-                    actions: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.help_outline, color: black),
-                          onPressed: () {
-                            
-                          })
-                    ]),
-                body: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                        children:
-                            ListTile.divideTiles(context: context, tiles: [
+                                (minggu?.closed == null ||
+                                    minggu?.closed == "" ||
+                                    minggu.closed == "Tutup") &&
+                                ((minggu?.openTime == null || minggu?.openTime == "") && (minggu?.closingTime == null || minggu?.closingTime == "")))
+                        ? _arrowBackBottomSheet(context)
+                        : Navigator.pop(context);
+                  },
+                ),
+                title: CustomText(
+                  text: 'Jam Operasional',
+                  size: 18.0,
+                  weight: FontWeight.w600,
+                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.help_outline, color: black),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: ListTile.divideTiles(
+                    context: context,
+                    tiles: [
                       ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[0]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[0]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (senin?.fullTime == null || senin?.fullTime == "")
-                                  ? (senin?.closed == null || senin?.closed == "")
-                                      ? ((senin?.openTime == null || senin?.openTime == "") &&
-                                              senin?.closingTime == null || senin?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${senin?.openTime} - ${senin?.closingTime}'
-                                      : '${senin?.closed}'
-                                  : '${senin?.fullTime}',
-                              color: (senin?.closed == null || senin?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[0],
-                                                partner: widget.partnerModel, timeModel: senin)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[1]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[1]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (selasa?.fullTime == null || selasa?.fullTime == "")
-                                  ? (selasa?.closed == null || selasa?.closed == "")
-                                      ? ((selasa?.openTime == null || selasa?.openTime == "") &&
-                                              selasa?.closingTime == null || selasa?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${selasa?.openTime} - ${selasa?.closingTime}'
-                                      : '${selasa?.closed}'
-                                  : '${selasa?.fullTime}',
-                              color: (selasa?.closed == null || selasa?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[1],
-                                                partner: widget.partnerModel, timeModel: selasa)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[2]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[2]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (rabu?.fullTime == null || rabu?.fullTime == "")
-                                  ? (rabu?.closed == null || rabu?.closed == "")
-                                      ? ((rabu?.openTime == null || rabu?.openTime == "") &&
-                                              rabu?.closingTime == null || rabu?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${rabu?.openTime} - ${rabu?.closingTime}'
-                                      : '${rabu?.closed}'
-                                  : '${rabu?.fullTime}',
-                              color: (rabu?.closed == null || rabu?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[2],
-                                                partner: widget.partnerModel, timeModel: rabu)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[3]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[3]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (kamis?.fullTime == null || kamis?.fullTime == "")
-                                  ? (kamis?.closed == null || kamis?.closed == "")
-                                      ? ((kamis?.openTime == null || kamis?.openTime == "") &&
-                                              kamis?.closingTime == null || kamis?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${kamis?.openTime} - ${kamis?.closingTime}'
-                                      : '${kamis?.closed}'
-                                  : '${kamis?.fullTime}',
-                              color: (kamis?.closed == null || kamis?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[3],
-                                                partner: widget.partnerModel, timeModel: kamis)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[4]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[4]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (jumat?.fullTime == null || jumat?.fullTime == "")
-                                  ? (jumat?.closed == null || jumat?.closed == "")
-                                      ? ((jumat?.openTime == null || jumat?.openTime == "") &&
-                                              jumat?.closingTime == null || jumat?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${jumat?.openTime} - ${jumat?.closingTime}'
-                                      : '${jumat?.closed}'
-                                  : '${jumat?.fullTime}',
-                              color: (jumat?.closed == null || jumat?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[4],
-                                                partner: widget.partnerModel, timeModel: jumat)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[5]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[5]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (sabtu?.fullTime == null || sabtu?.fullTime == "")
-                                  ? (sabtu?.closed == null || sabtu?.closed == "")
-                                      ? ((sabtu?.openTime == null || sabtu?.openTime == "") &&
-                                              sabtu?.closingTime == null || sabtu?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${sabtu?.openTime} - ${sabtu?.closingTime}'
-                                      : '${sabtu?.closed}'
-                                  : '${sabtu?.fullTime}',
-                              color: (sabtu?.closed == null || sabtu?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[5],
-                                                partner: widget.partnerModel, timeModel: sabtu)));
-                                  }))),
-                      ListTile(
-                          leading: Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                Icon(Icons.calendar_today,
-                                    color: yellow, size: 40.0),
-                                Positioned(
-                                    top: 10.0,
-                                    child: CustomText(
-                                        text: '${initial[6]}',
-                                        color: blue,
-                                        size: 18.0,
-                                        weight: FontWeight.w700))
-                              ]),
-                          title: CustomText(
-                              text: '${day[6]}', weight: FontWeight.w700),
-                          subtitle: CustomText(
-                              text: (minggu?.fullTime == null || minggu?.fullTime == "")
-                                  ? (minggu?.closed == null || minggu?.closed == "")
-                                      ? ((minggu?.openTime == null || minggu?.openTime == "") &&
-                                              minggu?.closingTime == null || minggu?.closingTime == "")
-                                          ? _time = "Tutup"
-                                          : '${minggu?.openTime} - ${minggu?.closingTime}'
-                                      : '${minggu?.closed}'
-                                  : '${minggu?.fullTime}',
-                              color: (minggu?.closed == null || minggu?.closed == "Tutup")
-                                  ? Colors.red : grey, weight: FontWeight.w600),
-                          trailing: Container(
-                              width: 40.0,
-                              child: FlatButton(
-                                  padding: const EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: CustomText(
-                                      text: 'Ubah',
-                                      color: green,
-                                      weight: FontWeight.w700),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AddTime(
-                                                day: day[6],
-                                                partner: widget.partnerModel, timeModel: minggu)));
-                                  }))),
-                      Container()
-                    ]).toList())),
-                bottomNavigationBar: Container(
-                    height: 45.0,
-                    margin: EdgeInsets.all(16.0),
-                    child: FlatButton(
-                        color: green,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[0]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[0]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (senin?.fullTime == null ||
+                                  senin?.fullTime == "")
+                              ? (senin?.closed == null || senin?.closed == "")
+                                  ? ((senin?.openTime == null ||
+                                                  senin?.openTime == "") &&
+                                              senin?.closingTime == null ||
+                                          senin?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${senin?.openTime} - ${senin?.closingTime}'
+                                  : '${senin?.closed}'
+                              : '${senin?.fullTime}',
+                          color: (senin?.closed == null ||
+                                  senin?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: CustomText(
-                                text: 'SIMPAN',
-                                color: white,
-                                size: 16.0,
-                                weight: FontWeight.w700)),
-                        onPressed: () {
-                          ((senin?.fullTime == null || senin?.fullTime == "") &&
-                            (senin?.closed == null || senin?.closed == "" || senin?.closed == "Tutup") &&
-                            ((senin?.openTime == null || senin?.openTime == "") && (senin?.closingTime == null || senin?.closingTime == "")))
-                            &&
+                                text: 'Ubah',
+                                color: yellow,
+                                weight: FontWeight.w700),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[0],
+                                    partner: widget.partnerModel,
+                                    timeModel: senin,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[1]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[1]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (selasa?.fullTime == null ||
+                                  selasa?.fullTime == "")
+                              ? (selasa?.closed == null || selasa?.closed == "")
+                                  ? ((selasa?.openTime == null ||
+                                                  selasa?.openTime == "") &&
+                                              selasa?.closingTime == null ||
+                                          selasa?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${selasa?.openTime} - ${selasa?.closingTime}'
+                                  : '${selasa?.closed}'
+                              : '${selasa?.fullTime}',
+                          color: (selasa?.closed == null ||
+                                  selasa?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[1],
+                                    partner: widget.partnerModel,
+                                    timeModel: selasa,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[2]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[2]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (rabu?.fullTime == null || rabu?.fullTime == "")
+                              ? (rabu?.closed == null || rabu?.closed == "")
+                                  ? ((rabu?.openTime == null ||
+                                                  rabu?.openTime == "") &&
+                                              rabu?.closingTime == null ||
+                                          rabu?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${rabu?.openTime} - ${rabu?.closingTime}'
+                                  : '${rabu?.closed}'
+                              : '${rabu?.fullTime}',
+                          color:
+                              (rabu?.closed == null || rabu?.closed == "Tutup")
+                                  ? Colors.red
+                                  : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[2],
+                                    partner: widget.partnerModel,
+                                    timeModel: rabu,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[3]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[3]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (kamis?.fullTime == null ||
+                                  kamis?.fullTime == "")
+                              ? (kamis?.closed == null || kamis?.closed == "")
+                                  ? ((kamis?.openTime == null ||
+                                                  kamis?.openTime == "") &&
+                                              kamis?.closingTime == null ||
+                                          kamis?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${kamis?.openTime} - ${kamis?.closingTime}'
+                                  : '${kamis?.closed}'
+                              : '${kamis?.fullTime}',
+                          color: (kamis?.closed == null ||
+                                  kamis?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[3],
+                                    partner: widget.partnerModel,
+                                    timeModel: kamis,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[4]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[4]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (jumat?.fullTime == null ||
+                                  jumat?.fullTime == "")
+                              ? (jumat?.closed == null || jumat?.closed == "")
+                                  ? ((jumat?.openTime == null ||
+                                                  jumat?.openTime == "") &&
+                                              jumat?.closingTime == null ||
+                                          jumat?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${jumat?.openTime} - ${jumat?.closingTime}'
+                                  : '${jumat?.closed}'
+                              : '${jumat?.fullTime}',
+                          color: (jumat?.closed == null ||
+                                  jumat?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[4],
+                                    partner: widget.partnerModel,
+                                    timeModel: jumat,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[5]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                          text: '${day[5]}',
+                          weight: FontWeight.w700,
+                        ),
+                        subtitle: CustomText(
+                          text: (sabtu?.fullTime == null ||
+                                  sabtu?.fullTime == "")
+                              ? (sabtu?.closed == null || sabtu?.closed == "")
+                                  ? ((sabtu?.openTime == null ||
+                                                  sabtu?.openTime == "") &&
+                                              sabtu?.closingTime == null ||
+                                          sabtu?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${sabtu?.openTime} - ${sabtu?.closingTime}'
+                                  : '${sabtu?.closed}'
+                              : '${sabtu?.fullTime}',
+                          color: (sabtu?.closed == null ||
+                                  sabtu?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                    day: day[5],
+                                    partner: widget.partnerModel,
+                                    timeModel: sabtu,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.calendar_today,
+                              color: green,
+                              size: 40.0,
+                            ),
+                            Positioned(
+                              top: 10.0,
+                              child: CustomText(
+                                text: '${initial[6]}',
+                                color: blue,
+                                size: 18.0,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                        title: CustomText(
+                            text: '${day[6]}', weight: FontWeight.w700),
+                        subtitle: CustomText(
+                          text: (minggu?.fullTime == null ||
+                                  minggu?.fullTime == "")
+                              ? (minggu?.closed == null || minggu?.closed == "")
+                                  ? ((minggu?.openTime == null ||
+                                                  minggu?.openTime == "") &&
+                                              minggu?.closingTime == null ||
+                                          minggu?.closingTime == "")
+                                      ? time = "Tutup"
+                                      : '${minggu?.openTime} - ${minggu?.closingTime}'
+                                  : '${minggu?.closed}'
+                              : '${minggu?.fullTime}',
+                          color: (minggu?.closed == null ||
+                                  minggu?.closed == "Tutup")
+                              ? Colors.red
+                              : grey,
+                          weight: FontWeight.w600,
+                        ),
+                        trailing: Container(
+                          width: 40.0,
+                          child: FlatButton(
+                            padding: const EdgeInsets.all(0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: CustomText(
+                              text: 'Ubah',
+                              color: yellow,
+                              weight: FontWeight.w700,
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddTime(
+                                      day: day[6],
+                                      partner: widget.partnerModel,
+                                      timeModel: minggu),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      Container()
+                    ],
+                  ).toList(),
+                ),
+              ),
+              bottomNavigationBar: Container(
+                height: 48.0,
+                margin: EdgeInsets.all(16.0),
+                child: FlatButton(
+                  color: yellow,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Center(
+                    child: CustomText(
+                      text: 'SIMPAN',
+                      color: white,
+                      size: 16.0,
+                      weight: FontWeight.w700,
+                    ),
+                  ),
+                  onPressed: () {
+                    ((senin?.fullTime == null || senin?.fullTime == "") &&
+                                (senin?.closed == null ||
+                                    senin?.closed == "" ||
+                                    senin?.closed == "Tutup") &&
+                                ((senin?.openTime == null || senin?.openTime == "") &&
+                                    (senin?.closingTime == null ||
+                                        senin?.closingTime == ""))) &&
                             ((selasa?.fullTime == null || selasa?.fullTime == "") &&
-                            (selasa?.closed == null || selasa?.closed == "" || selasa?.closed == "Tutup") &&
-                            ((selasa?.openTime == null || selasa?.openTime == "") && (selasa?.closingTime == null || selasa?.closingTime == "")))
-                            &&
+                                (selasa?.closed == null ||
+                                    selasa?.closed == "" ||
+                                    selasa?.closed == "Tutup") &&
+                                ((selasa?.openTime == null || selasa?.openTime == "") &&
+                                    (selasa?.closingTime == null ||
+                                        selasa?.closingTime == ""))) &&
                             ((rabu?.fullTime == null || rabu?.fullTime == "") &&
-                            (rabu?.closed == null || rabu?.closed == "" || rabu?.closed == "Tutup") &&
-                            ((rabu?.openTime == null || rabu?.openTime == "") && (rabu?.closingTime == null || rabu?.closingTime == "")))
-                            &&
+                                (rabu?.closed == null ||
+                                    rabu?.closed == "" ||
+                                    rabu?.closed == "Tutup") &&
+                                ((rabu?.openTime == null || rabu?.openTime == "") &&
+                                    (rabu?.closingTime == null ||
+                                        rabu?.closingTime == ""))) &&
                             ((kamis?.fullTime == null || kamis?.fullTime == "") &&
-                            (kamis?.closed == null || kamis?.closed == "" || kamis?.closed == "Tutup") &&
-                            ((kamis?.openTime == null || kamis?.openTime == "") && (kamis?.closingTime == null || kamis?.closingTime == "")))
-                            &&
+                                (kamis?.closed == null ||
+                                    kamis?.closed == "" ||
+                                    kamis?.closed == "Tutup") &&
+                                ((kamis?.openTime == null || kamis?.openTime == "") &&
+                                    (kamis?.closingTime == null ||
+                                        kamis?.closingTime == ""))) &&
                             ((jumat?.fullTime == null || jumat?.fullTime == "") &&
-                            (jumat?.closed == null || jumat?.closed == "" || jumat?.closed == "Tutup") &&
-                            ((jumat?.openTime == null || jumat?.openTime == "") && (jumat?.closingTime == null || jumat?.closingTime == "")))
-                            &&
+                                (jumat?.closed == null ||
+                                    jumat?.closed == "" ||
+                                    jumat?.closed == "Tutup") &&
+                                ((jumat?.openTime == null || jumat?.openTime == "") &&
+                                    (jumat?.closingTime == null ||
+                                        jumat?.closingTime == ""))) &&
                             ((sabtu?.fullTime == null || sabtu?.fullTime == "") &&
-                            (sabtu?.closed == null || sabtu?.closed == "" || sabtu?.closed == "Tutup") &&
-                            ((sabtu?.openTime == null || sabtu?.openTime == "") && (sabtu?.closingTime == null || sabtu?.closingTime == "")))
-                            &&
+                                (sabtu?.closed == null ||
+                                    sabtu?.closed == "" ||
+                                    sabtu?.closed == "Tutup") &&
+                                ((sabtu?.openTime == null || sabtu?.openTime == "") &&
+                                    (sabtu?.closingTime == null ||
+                                        sabtu?.closingTime == ""))) &&
                             ((minggu?.fullTime == null || minggu?.fullTime == "") &&
-                            (minggu?.closed == null || minggu?.closed == "" || minggu.closed == "Tutup") &&
-                            ((minggu?.openTime == null || minggu?.openTime == "") && (minggu?.closingTime == null || minggu?.closingTime == "")))
-                            ?
-                            _arrowBackBottomSheet(context)
-                            :
-                            Navigator.pop(context);
-                        }))));
+                                (minggu?.closed == null ||
+                                    minggu?.closed == "" ||
+                                    minggu.closed == "Tutup") &&
+                                ((minggu?.openTime == null || minggu?.openTime == "") && (minggu?.closingTime == null || minggu?.closingTime == "")))
+                        ? _arrowBackBottomSheet(context)
+                        : Navigator.pop(context);
+                  },
+                ),
+              ),
+            ),
+          );
   }
 
   void _arrowBackBottomSheet(context) {
     showModalBottomSheet<void>(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0))),
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-              height: 186.0,
-              child: Column(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0),
+          topRight: Radius.circular(20.0),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 186.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.close),
+                  children: [
+                    CustomText(
+                      text:
+                          'Isi minimal 1 hari kerja untuk tempat pengelolaan-mu.',
+                      size: 18.0,
+                      weight: FontWeight.w700,
+                    ),
+                    SizedBox(height: 20.0),
+                    Container(
+                      height: 48,
+                      child: FlatButton(
+                        color: yellow,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: CustomText(
+                            text: 'OKE',
+                            color: white,
+                            size: 16.0,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.pop(context);
-                        }),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText(
-                                  text:
-                                      'Isi minimal 1 hari kerja untuk tempat pengelolaan-mu.',
-                                  size: 18.0,
-                                  weight: FontWeight.w700),
-                              SizedBox(height: 20.0),
-                              Container(
-                                height: 45,
-                                child: FlatButton(
-                                    color: green,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                10)),
-                                    child: Center(
-                                        child: CustomText(
-                                            text: 'OKE',
-                                            color: white,
-                                            size: 16.0,
-                                            weight:
-                                                FontWeight.w700)),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    }),
-                              )
-                            ]))
-                  ]));
-        });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

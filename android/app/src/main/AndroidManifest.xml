@@ -18,7 +18,7 @@
         android:label="lingkung_partner"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyBxcEIaTorP_Qj34K0EH32zZ5Bmd-i7SRc"/>
+               android:value="AIzaSyB89-Jma2I06oiDW5r8ZjWhyLCLMcpNPnk"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

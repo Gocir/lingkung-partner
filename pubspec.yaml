@@ -42,6 +42,7 @@ dependencies:
   shared_preferences:
   stripe_payment:
   cached_network_image: ^2.0.0-rc
+  flutter_inappwebview: ^4.0.0+4
   circular_check_box: ^1.0.3
   google_maps_flutter: 
   location: ^3.0.0

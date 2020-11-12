@@ -80,97 +80,98 @@ class _OwnerDataState extends State<OwnerData> {
                                       text: 'Nomor HP Pemilik',
                                       weight: FontWeight.w700),
                                   SizedBox(height: 5.0),
-                                  Row(children: <Widget>[
-                                    Container(
-                                        width: 70.0,
-                                        height: 40.0,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                          color: Colors.grey[200]
-                                        ),
-                                        child: CountryCodePicker(
-                                            // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                            onChanged: (countryCode) {
-                                              _onCountryChange(countryCode);
-                                            },
-                                            initialSelection: 'ID',
-                                            favorite: ['ID'],
-                                            // optional. Shows only country name and flag
-                                            showCountryOnly: true,
-                                            // optional. Shows only country name and flag when popup is closed
-                                            showOnlyCountryWhenClosed: false,
-                                            // optional. aligns the flag and the Text left
-                                            alignLeft: false,
-                                            onInit: (countryCode) {
-                                              _onInitCountry(countryCode);
-                                            },
-                                            searchDecoration: InputDecoration(
-                                                isDense: true,
-                                                prefixIcon: Icon(Icons.search),
-                                                hintText: 'Ketik nama negara',
-                                                border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50.0)),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(50.0),
-                                                        borderSide: BorderSide(
-                                                            color: blue))),
-                                            searchStyle: TextStyle(
-                                                fontFamily: "Poppins",
-                                                color: black,
-                                                fontSize: 16.0),
-                                            textStyle: TextStyle(
-                                                fontFamily: "Poppins",
-                                                color: black),
-                                            dialogTextStyle: TextStyle(
-                                                fontFamily: "Poppins",
-                                                color: black,
-                                                fontSize: 16.0))),
-                                    SizedBox(width: 10.0),
-                                    Flexible(
+                                  Row(
+                                    children: <Widget>[
+                                      Container(
+                                          width: 70.0,
+                                          height: 40.0,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              color: Colors.grey[200]),
+                                          child: CountryCodePicker(
+                                              // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                                              onChanged: (countryCode) {
+                                                _onCountryChange(countryCode);
+                                              },
+                                              initialSelection: 'ID',
+                                              favorite: ['ID'],
+                                              // optional. Shows only country name and flag
+                                              showCountryOnly: true,
+                                              // optional. Shows only country name and flag when popup is closed
+                                              showOnlyCountryWhenClosed: false,
+                                              // optional. aligns the flag and the Text left
+                                              alignLeft: false,
+                                              onInit: (countryCode) {
+                                                _onInitCountry(countryCode);
+                                              },
+                                              searchDecoration: InputDecoration(
+                                                  isDense: true,
+                                                  prefixIcon:
+                                                      Icon(Icons.search),
+                                                  hintText: 'Ketik nama negara',
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50.0)),
+                                                  focusedBorder: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              50.0),
+                                                      borderSide: BorderSide(
+                                                          color: blue))),
+                                              searchStyle: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  color: black,
+                                                  fontSize: 16.0),
+                                              textStyle: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  color: black),
+                                              dialogTextStyle: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  color: black,
+                                                  fontSize: 16.0))),
+                                      SizedBox(width: 10.0),
+                                      Flexible(
                                         flex: 2,
                                         child: TextFormField(
-                                            keyboardType: TextInputType.phone,
-                                            inputFormatters: <
-                                                TextInputFormatter>[
-                                              LengthLimitingTextInputFormatter(
-                                                  11),
-                                              FilteringTextInputFormatter
-                                                  .digitsOnly
-                                            ],
-                                            style: TextStyle(
-                                                fontFamily: "Poppins",
-                                                color: black),
-                                            decoration: InputDecoration(
-                                                isDense: true,
-                                                counterStyle: TextStyle(
-                                                    fontFamily: "Poppins",
-                                                    color: black),
-                                                hintText: 'Contoh: 81234567890',
-                                                hintStyle: TextStyle(
-                                                    fontFamily: "Poppins"),
-                                                focusedBorder:
-                                                    UnderlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: blue))),
-                                            onChanged: (String str) {
-                                              setState(() {
-                                                phoneNumberOwner = str;
-                                              });
-                                            },
-                                            validator: (value) => (value
-                                                    .isEmpty)
-                                                ? 'Masukkan Nomor Ponsel-mu'
-                                                : (value.length > 11 ||
-                                                        value.length < 11)
-                                                    ? 'Batas Maksimal Nomor Ponsel adalah 11'
-                                                    : null))
-                                  ]),
+                                          keyboardType: TextInputType.phone,
+                                          inputFormatters: <TextInputFormatter>[
+                                            LengthLimitingTextInputFormatter(
+                                                11),
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: black),
+                                          decoration: InputDecoration(
+                                              isDense: true,
+                                              counterStyle: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  color: black),
+                                              hintText: 'Contoh: 81234567890',
+                                              hintStyle: TextStyle(
+                                                  fontFamily: "Poppins"),
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: blue))),
+                                          onChanged: (String str) {
+                                            setState(() {
+                                              phoneNumberOwner = str;
+                                            });
+                                          },
+                                          validator: (value) => (value.isEmpty)
+                                              ? 'Masukkan Nomor Ponsel-mu'
+                                              : (value.length > 11 ||
+                                                      value.length < 10)
+                                                  ? 'Batas Minimal Nomor Ponsel adalah 11'
+                                                  : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   SizedBox(height: 16.0),
                                   Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -351,8 +352,8 @@ class _OwnerDataState extends State<OwnerData> {
                                                 text: 'Nomor NPWP',
                                                 weight: FontWeight.w700),
                                             TextFormField(
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                keyboardType: TextInputType
+                                                    .number,
                                                 style: TextStyle(
                                                     fontFamily: "Poppins",
                                                     color: black),
@@ -382,15 +383,16 @@ class _OwnerDataState extends State<OwnerData> {
                                                                         blue))),
                                                 onChanged: (String str) {
                                                   setState(() {
-                                                    (isExpanded) ?
-                                                    npwpNumber = str :
-                                                    npwpNumber = "";
+                                                    (isExpanded)
+                                                        ? npwpNumber = str
+                                                        : npwpNumber = "";
                                                   });
                                                 },
-                                                validator: (value) => (isExpanded && value
-                                                        .isEmpty)
+                                                validator: (value) => (isExpanded &&
+                                                        value.isEmpty)
                                                     ? 'Masukkan nomor NPWP dengan benar'
-                                                    : (isExpanded && value.length > 15)
+                                                    : (isExpanded &&
+                                                            value.length > 15)
                                                         ? 'Batas maksimal nomor NPWP adalah 15'
                                                         : null),
                                             SizedBox(height: 16.0),
@@ -423,13 +425,13 @@ class _OwnerDataState extends State<OwnerData> {
                                                                         blue))),
                                                 onChanged: (String str) {
                                                   setState(() {
-                                                    (isExpanded) ?
-                                                    npwpName = str :
-                                                    npwpName = "";
+                                                    (isExpanded)
+                                                        ? npwpName = str
+                                                        : npwpName = "";
                                                   });
                                                 },
-                                                validator: (value) => (isExpanded && value
-                                                        .isEmpty)
+                                                validator: (value) => (isExpanded &&
+                                                        value.isEmpty)
                                                     ? 'Masukkan nama sesuai NPWP Anda'
                                                     : null)
                                           ]))
@@ -447,7 +449,7 @@ class _OwnerDataState extends State<OwnerData> {
                                 color: white,
                                 size: 16.0,
                                 weight: FontWeight.w700)),
-                        onPressed: () async {
+                        onPressed: () {
                           save();
                         }))));
   }
@@ -684,7 +686,9 @@ class _OwnerDataState extends State<OwnerData> {
       );
     } else {
       return CachedNetworkImage(
-          imageUrl: partnerProvider.businessPartnerModel?.image.toString(),
+          imageUrl: partnerProvider
+              .businessPartnerModel?.ownerDataModel?.ktpImage
+              .toString(),
           imageBuilder: (context, imageProvider) => Container(
               width: MediaQuery.of(context).size.width,
               height: 150.0,
@@ -694,14 +698,13 @@ class _OwnerDataState extends State<OwnerData> {
                   color: white,
                   borderRadius: BorderRadius.circular(5.0))),
           placeholder: (context, url) => Container(
-                width: MediaQuery.of(context).size.width,
-                height: 150.0,
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.grey[200], width: 1.0)),
-                child: SpinKitThreeBounce(color: black, size: 20.0)
-              ),
+              width: MediaQuery.of(context).size.width,
+              height: 150.0,
+              decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.circular(5.0),
+                  border: Border.all(color: Colors.grey[200], width: 1.0)),
+              child: SpinKitThreeBounce(color: black, size: 20.0)),
           errorWidget: (context, url, error) => Container(
               width: MediaQuery.of(context).size.width,
               height: 150.0,
@@ -737,7 +740,9 @@ class _OwnerDataState extends State<OwnerData> {
       );
     } else {
       return CachedNetworkImage(
-          imageUrl: partnerProvider.businessPartnerModel?.image.toString(),
+          imageUrl: partnerProvider
+              .businessPartnerModel?.ownerDataModel?.npwpImage
+              .toString(),
           imageBuilder: (context, imageProvider) => Container(
               width: MediaQuery.of(context).size.width,
               height: 150.0,
@@ -785,15 +790,24 @@ class _OwnerDataState extends State<OwnerData> {
     if (_formKey.currentState.validate()) {
       setState(() => loading = true);
       String phoneNumber = dialCode + phoneNumberOwner;
-      bool value = await partnerProvider.addOwnerData(phoNumberOwner: phoneNumber, ktpImage: _ktpImage.toString(), nik: int.parse(nik), ktpName: ktpName, npwpImage: _npwpImage.toString(), npwpNumber: int.parse(npwpNumber), npwpName: npwpName);
+      bool value = await partnerProvider.addOwnerData(
+          phoNumberOwner: phoneNumber,
+          ktpImage: _ktpImage.toString(),
+          nik: int.parse(nik),
+          ktpName: ktpName,
+          npwpImage: _npwpImage.toString(),
+          npwpNumber: (npwpNumber == "" || npwpNumber == null)
+              ? 0
+              : int.parse(npwpNumber),
+          npwpName: npwpName);
       if (value) {
         print("Owner Saved!");
-        _scaffoldStateKey.currentState.showSnackBar(SnackBar(
+        _scaffoldStateKey.currentState.showSnackBar(
+          SnackBar(
             content: CustomText(
-          text: "Saved!",
-          color: white,
-          weight: FontWeight.w600
-        )));
+                text: "Saved!", color: white, weight: FontWeight.w600),
+          ),
+        );
         partnerProvider.reloadPartnerModel();
         setState(() {
           loading = false;

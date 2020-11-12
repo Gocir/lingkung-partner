@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lingkung_partner/providers/partnerProvider.dart';
-import 'package:lingkung_partner/screens/menu/home.dart';
+import 'package:lingkung_partner/screens/menu/order.dart';
 import 'package:lingkung_partner/utilities/colorStyle.dart';
 import 'package:lingkung_partner/utilities/loading.dart';
 import 'package:lingkung_partner/utilities/textStyle.dart';
@@ -44,61 +44,67 @@ class _VerificationCodeState extends State<VerificationCode> {
                       onPressed: () {})
                 ]),
             body: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Image.asset('assets/images/verifikasi.png', scale: 1.25),
-                      CustomText(
-                          text: 'Kode OTP sudah dikirim!',
-                          size: 22.0,
-                          weight: FontWeight.w700),
-                      SizedBox(height: 10.0),
-                      Flexible(
-                          child: CustomText(
-                              text:
-                                  'Masukkan kode OTP yang kami SMS ke nomor HP Anda yang terdaftar +1234567890.')),
-                      SizedBox(height: 10.0),
-                      Form(
-                          key: _formKey,
-                          child: Row(children: <Widget>[
-                            getPinField(key: "1", focusNode: focusNode1),
-                            SizedBox(width: 5.0),
-                            getPinField(key: "2", focusNode: focusNode2),
-                            SizedBox(width: 5.0),
-                            getPinField(key: "3", focusNode: focusNode3),
-                            SizedBox(width: 5.0),
-                            getPinField(key: "4", focusNode: focusNode4),
-                            SizedBox(width: 5.0),
-                            getPinField(key: "5", focusNode: focusNode5),
-                            SizedBox(width: 5.0),
-                            getPinField(key: "6", focusNode: focusNode6),
-                            Spacer(),
-                            CustomText(text: '4:20', weight: FontWeight.w600)
-                          ]))
-                    ])),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Image.asset('assets/images/verifikasi.png', scale: 1.25),
+                  CustomText(
+                      text: 'Kode OTP sudah dikirim!',
+                      size: 22.0,
+                      weight: FontWeight.w700),
+                  SizedBox(height: 10.0),
+                  Flexible(
+                      child: CustomText(
+                          text:
+                              'Masukkan kode OTP yang kami SMS ke nomor HP Anda yang terdaftar +1234567890.')),
+                  SizedBox(height: 10.0),
+                  Form(
+                    key: _formKey,
+                    child: Row(
+                      children: <Widget>[
+                        getPinField(key: "1", focusNode: focusNode1),
+                        SizedBox(width: 5.0),
+                        getPinField(key: "2", focusNode: focusNode2),
+                        SizedBox(width: 5.0),
+                        getPinField(key: "3", focusNode: focusNode3),
+                        SizedBox(width: 5.0),
+                        getPinField(key: "4", focusNode: focusNode4),
+                        SizedBox(width: 5.0),
+                        getPinField(key: "5", focusNode: focusNode5),
+                        SizedBox(width: 5.0),
+                        getPinField(key: "6", focusNode: focusNode6),
+                        Spacer(),
+                        CustomText(text: '4:20', weight: FontWeight.w600)
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             bottomNavigationBar: Container(
-                height: 77.0,
-                padding: const EdgeInsets.all(16.0),
-                child: FlatButton(
-                    color: green,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: CustomText(
-                        text: 'KONFIRMASI',
-                        color: white,
-                        weight: FontWeight.w700),
-                    onPressed: () {
-                      partnerProvider.verifyCodeOTP(context, code);
-                      code = "";
-                    })));
+              height: 80.0,
+              padding: const EdgeInsets.all(16.0),
+              child: FlatButton(
+                color: green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50)),
+                child: CustomText(
+                    text: 'KONFIRMASI', color: white, weight: FontWeight.w700),
+                onPressed: () {
+                  partnerProvider.verifyCodeOTP(context, code);
+                  code = "";
+                },
+              ),
+            ),
+          );
   }
 
   // This will return pin field - it accepts only single char
   Widget getPinField({String key, FocusNode focusNode}) => Container(
-      // height: 50.0,
-      width: 35.0,
-      child: TextFormField(
+        // height: 50.0,
+        width: 35.0,
+        child: TextFormField(
           key: Key(key),
           expands: false,
           autofocus: false,
@@ -135,26 +141,10 @@ class _VerificationCodeState extends State<VerificationCode> {
             LengthLimitingTextInputFormatter(6),
             FilteringTextInputFormatter.digitsOnly
           ],
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600)));
-
-  _showSnackBar(String text) {
-    final snackBar = SnackBar(
-      content: Text('$text'),
-      duration: Duration(seconds: 2),
-    );
-    _scaffoldStateKey.currentState.showSnackBar(snackBar);
-  }
-
-  onVerified() async {
-    _showSnackBar(
-        "${Provider.of<PartnerProvider>(context, listen: false).errorMessage}");
-    await Future.delayed(Duration(seconds: 1));
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-  }
-
-  onError() {
-    _showSnackBar(
-        "PhoneAuth error ${Provider.of<PartnerProvider>(context, listen: false).errorMessage}");
-  }
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      );
 }

@@ -38,42 +38,42 @@ class OperationalTimeProvider with ChangeNotifier {
   loadTimeByDay(String userId, String day) async {
     _operationalTimeModel =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeByMonDay(String userId, String day) async {
     _mondayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeByTuesDay(String userId, String day) async {
     _tuesdayTime=
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeByWednesDay(String userId, String day) async {
     _wednesdayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeByThursDay(String userId, String day) async {
     _thursdayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeByFriDay(String userId, String day) async {
     _fridayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeBySaturDay(String userId, String day) async {
     _saturdayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
   loadTimeBySunDay(String userId, String day) async {
     _sundayTime =
         await _operationalTimeService.getTimeByDay(userId: userId, day: day);
-    // notifyListeners();
+    notifyListeners();
   }
 
   getDocument(String userId) async {

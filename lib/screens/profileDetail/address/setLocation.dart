@@ -58,7 +58,7 @@ class _SetLocationState extends State<SetLocation> {
                               weight: FontWeight.w700),
                           CustomText(
                             text: '${addressProvider.currentAddress}',
-                            line: 4,
+                            line: 3,
                             over: TextOverflow.ellipsis,
                             align: TextAlign.justify,
                             color: black.withOpacity(0.8),

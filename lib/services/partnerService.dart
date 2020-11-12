@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lingkung_partner/models/addressModel.dart';
 import 'package:lingkung_partner/models/bankAccountModel.dart';
 import 'package:lingkung_partner/models/ownerDataModel.dart';
-import 'package:lingkung_partner/models/operationalTimeModel.dart';
 import 'package:lingkung_partner/models/partnerModel.dart';
 
 class PartnerServices {
@@ -43,8 +42,6 @@ class PartnerServices {
       });
 
   void addAddress({String userId, AddressModel addressModel}) {
-    print("THE USER ID IS: $userId");
-    print("address are: ${addressModel.toString()}");
     _firestore
         .collection(collection)
         .document(userId)
@@ -52,8 +49,6 @@ class PartnerServices {
   }
 
   void addOwnerData({String userId, OwnerDataModel ownerDataModel}) {
-    print("THE USER ID IS: $userId");
-    print("owner is: ${ownerDataModel.toString()}");
     _firestore
         .collection(collection)
         .document(userId)
@@ -61,8 +56,6 @@ class PartnerServices {
   }
 
   void addBankAccount({String userId, BankAccountModel bankAccountModel}) {
-    print("THE USER ID IS: $userId");
-    print("owner is: ${bankAccountModel.toString()}");
     _firestore
         .collection(collection)
         .document(userId)
