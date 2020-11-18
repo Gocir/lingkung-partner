@@ -63,20 +63,7 @@ class _LoginPageState extends State<LoginPage> {
           backgroundColor: white,
           elevation: 0,
           automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              RotatedBox(
-                quarterTurns: 3,
-                child: CustomText(
-                  text: 'mitra',
-                  color: blue,
-                  size: 10.0,
-                  weight: FontWeight.w700,
-                ),
-              ),
-              Image.asset('assets/images/logos.png', height: 35.0)
-            ],
-          ),
+          title: Image.asset('assets/images/logos.png', height: 35.0),
           actions: [
             IconButton(
               icon: Icon(Icons.help_outline, color: black),
